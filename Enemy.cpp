@@ -9,6 +9,7 @@ Enemy::Enemy() {
     horizontalDirection = MOVE_RIGHT;
     verticalDirection = MOVE_DOWN;
     changeDelay = 0;
+    alive = true;
 }
 
 Enemy::~Enemy() {
@@ -106,6 +107,4 @@ SDL_Rect Enemy::getHitBox() {
     return result;
 }
 
-void Enemy::hitByProjectile(std::vector<SDL_Rect>& projectiles) {
 
-}

@@ -12,7 +12,7 @@ Player::Player() {
     input.up = 0;
     input.down = 0;
     input.jump = 0;
-
+    alive = true;
 }
 
 Player::~Player() {
@@ -75,13 +75,15 @@ void Player::show(SDL_Renderer* des) {
 
     SDL_RenderCopy(des, objTexture, clip, &renderQuad);
 
+}
+
+void Player::showProjectiles(SDL_Renderer* des) {
     for (int i = 0; i < projectiles.size(); i++) {
         projectileObject.setRect(projectiles[i]);
         projectileObject.render(des, NULL);
     }
 
     projectileMove();
-
 }
 
 void Player::handleInput(SDL_Event e, SDL_Renderer* screen) {
@@ -155,4 +157,16 @@ void Player::projectileMove() {
 SDL_Rect Player::getHitBox() {
     SDL_Rect result = { xPos, yPos, frameWidth, frameHeight };
     return result;
+}
+
+void Player::hitEnemy(Enemy& enemy) {
+    SDL_Rect hitbox = enemy.getHitBox();
+
+    for (int i = 0; i < projectiles.size(); i++) {
+        SDL_Rect cur = projectiles[i];
+        if (hitbox.x >= cur.x + cur.w || hitbox.x + hitbox.w <= cur.x || hitbox.y >= cur.y + cur.h || hitbox.y + hitbox.h <= cur.y)
+            continue;
+        projectiles.erase(projectiles.begin() + (i--));
+        enemy.dead();
+    }
 }

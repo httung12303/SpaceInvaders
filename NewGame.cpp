@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
 
     initData();
 
-    //loadBackGround();
+    loadBackGround();
 
     Player mainChar;
     mainChar.loadImage("images/Characters/plane.png", gScreen);
@@ -34,7 +34,6 @@ int main(int argc, char* argv[]) {
     testEnemy.setPos(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
 
     bool gameOver = false;
-    int counter = 0;
 
     while (!gameOver) {
 
@@ -43,7 +42,9 @@ int main(int argc, char* argv[]) {
                 gameOver = true;
             }
 
-            mainChar.handleInput(gEvent, gScreen);
+            if (mainChar.isAlive()) {
+                mainChar.handleInput(gEvent, gScreen);
+            }
         }
 
 
@@ -52,9 +53,16 @@ int main(int argc, char* argv[]) {
 
         gBackGround.render(gScreen, NULL);
 
-        testEnemy.show(gScreen);
+        if (testEnemy.isAlive()) {
+            testEnemy.show(gScreen);
+            mainChar.hitEnemy(testEnemy);
+        }
 
-        mainChar.show(gScreen);
+        if (mainChar.isAlive()) {
+            mainChar.show(gScreen);
+        }
+
+        mainChar.showProjectiles(gScreen);
 
         SDL_RenderPresent(gScreen);
 

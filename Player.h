@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseObject.h"
 #include "BasicFunction.h"
+#include "Enemy.h"
 
 class Input {
 public:
@@ -26,8 +27,13 @@ public:
     void shoot(SDL_Renderer* screen);
     void loadProjectile(std::string path, SDL_Renderer* screen);
     void projectileMove();
+    bool isAlive() { return alive;}
+    void hitEnemy(Enemy& enemy);
+    void showProjectiles(SDL_Renderer* des);
 
 private:
+
+    bool alive;
 
     unsigned int lastShot = 0;
 

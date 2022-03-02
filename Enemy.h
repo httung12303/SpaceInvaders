@@ -14,8 +14,11 @@ public:
     void newPos();
     void setPos(const int& x, const int& y) { xPos = x; yPos = y; }
     void hitByProjectile(std::vector<SDL_Rect>& projectiles);
-
+    bool isAlive() { return alive; }
+    void dead() { alive = false; }
 private:
+
+    bool alive;
 
     float xPos;
     float yPos;
