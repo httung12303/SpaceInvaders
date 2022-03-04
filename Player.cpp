@@ -2,16 +2,12 @@
 
 Player::Player() {
 
+    lives = 3;
     currentFrame = PLAYER_ANIMATION_COUNT / 2 - 1;
     xPos = 0;
     yPos = 0;
     frameWidth = 0;
     frameHeight = 0;
-    /*input.left = 0;
-    input.right = 0;
-    input.up = 0;
-    input.down = 0;
-    input.jump = 0;*/
     alive = true;
     damage = 1;
 }
@@ -156,3 +152,17 @@ void Player::hitEnemy(Enemy& enemy) {
             enemy.dead();
     }
 }
+
+/*void Player::enemyContact(Enemy enemy) {
+    SDL_Rect playerHitbox = this->getHitBox();
+    SDL_Rect enemyHitbox = enemy.getHitBox();
+    if (playerHitbox.x >= enemyHitbox.x + enemyHitbox.w || playerHitbox.x + playerHitbox.w <= enemyHitbox.x || playerHitbox.y + playerHitbox.h >= enemyHitbox.y || playerHitbox.y <= enemyHitbox.y + enemyHitbox.h)
+        return;
+    unsigned int cur = SDL_GetTicks();
+    if (cur - lastHitByEnemy < 1000)
+        return;
+    lastHitByEnemy = cur;
+    lives--;
+    if (lives <= 0) dead();
+}*/
+

@@ -20,14 +20,19 @@ public:
     bool isAlive() { return alive;}
     void hitEnemy(Enemy& enemy);
     void showProjectiles(SDL_Renderer* des);
+    void enemyContact(Enemy enemy);
+    void dead() { alive = 0; }
 
 private:
+    
+    int lives;
 
     bool alive;
 
     int damage;
 
     unsigned int lastShot = 0;
+    unsigned int lastHitByEnemy = 0;
 
     float xPos;
     float yPos;
