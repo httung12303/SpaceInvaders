@@ -2,17 +2,18 @@
 
 Player::Player() {
 
-    currentFrame = 0;
+    currentFrame = PLAYER_ANIMATION_COUNT / 2 - 1;
     xPos = 0;
     yPos = 0;
     frameWidth = 0;
     frameHeight = 0;
-    input.left = 0;
+    /*input.left = 0;
     input.right = 0;
     input.up = 0;
     input.down = 0;
-    input.jump = 0;
+    input.jump = 0;*/
     alive = true;
+    damage = 1;
 }
 
 Player::~Player() {
@@ -59,15 +60,8 @@ void Player::setClip() {
 
 void Player::show(SDL_Renderer* des) {
 
-    if (input.left == 1) {
-        if (currentFrame > 1) currentFrame = 1;
-        else currentFrame = 0;
-    }
-    else if (input.right == 1) {
-        if (currentFrame < 3) currentFrame = 3;
-        else currentFrame = 4;
-    }
-    else currentFrame = 2;
+    currentFrame++;
+    currentFrame %= PLAYER_ANIMATION_COUNT;
 
     SDL_Rect renderQuad = { xPos, yPos, frameWidth, frameHeight };
 
@@ -89,35 +83,23 @@ void Player::showProjectiles(SDL_Renderer* des) {
 void Player::handleInput(SDL_Event e, SDL_Renderer* screen) {
 
     if (e.type == SDL_KEYDOWN || e.type == SDL_KEYUP) {
-        if (input.keyboardState[SDL_SCANCODE_UP] && !input.keyboardState[SDL_SCANCODE_DOWN]) {
-            input.up = 1;
-            input.down = 0;
+        if (keyboardState[SDL_SCANCODE_UP] && !keyboardState[SDL_SCANCODE_DOWN]) {
             yPos -= PLAYER_VERTICAL_SPEED;
             if (yPos < minYPos) yPos = minYPos;
         }
-        else if (!input.keyboardState[SDL_SCANCODE_UP] && input.keyboardState[SDL_SCANCODE_DOWN]) {
-            input.up = 0;
-            input.down = 1;
+        else if (!keyboardState[SDL_SCANCODE_UP] && keyboardState[SDL_SCANCODE_DOWN]) {
             yPos += PLAYER_VERTICAL_SPEED;
             if (yPos > maxYPos) yPos = maxYPos;
         }
-        if (input.keyboardState[SDL_SCANCODE_LEFT] && !input.keyboardState[SDL_SCANCODE_RIGHT]) {
-            input.left = 1;
-            input.right = 0;
+        if (keyboardState[SDL_SCANCODE_LEFT] && !keyboardState[SDL_SCANCODE_RIGHT]) {
             xPos -= PLAYER_HORIZONTAL_SPEED;
             if (xPos < minXPos) xPos = minXPos;
         }
-        else if (!input.keyboardState[SDL_SCANCODE_LEFT] && input.keyboardState[SDL_SCANCODE_RIGHT]) {
-            input.left = 0;
-            input.right = 1;
+        else if (!keyboardState[SDL_SCANCODE_LEFT] && keyboardState[SDL_SCANCODE_RIGHT]) {
             xPos += PLAYER_HORIZONTAL_SPEED;
             if (xPos > maxXPos) xPos = maxXPos;
         }
-        else if (!input.keyboardState[SDL_SCANCODE_LEFT] && !input.keyboardState[SDL_SCANCODE_RIGHT]) {
-            input.left = 0;
-            input.right = 0;
-        }
-        if (input.keyboardState[SDL_SCANCODE_SPACE]) {
+        if (keyboardState[SDL_SCANCODE_SPACE]) {
             unsigned int curShot = SDL_GetTicks();
             if (curShot - lastShot >= 300) {
                 shoot(screen);
@@ -166,7 +148,11 @@ void Player::hitEnemy(Enemy& enemy) {
         SDL_Rect cur = projectiles[i];
         if (hitbox.x >= cur.x + cur.w || hitbox.x + hitbox.w <= cur.x || hitbox.y >= cur.y + cur.h || hitbox.y + hitbox.h <= cur.y)
             continue;
+        if (!enemy.isAlive()) 
+            continue;
+        enemy.getHit(damage);
         projectiles.erase(projectiles.begin() + (i--));
-        enemy.dead();
+        if(enemy.getHP() <= 0)
+            enemy.dead();
     }
 }

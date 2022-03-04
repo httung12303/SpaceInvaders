@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
     loadBackGround();
 
     Player mainChar;
-    mainChar.loadImage("images/Characters/plane.png", gScreen);
+    mainChar.loadImage("images/Characters/planeIII.png", gScreen);
     mainChar.setClip();
     mainChar.resetPos();
     mainChar.loadProjectile("images/Projectile/projectile2.png", gScreen);
@@ -66,7 +66,7 @@ int main(int argc, char* argv[]) {
 
         SDL_RenderPresent(gScreen);
 
-        SDL_Delay(50);
+        SDL_Delay(100);
     }
 
 
@@ -99,7 +99,7 @@ void initData() {
 }
 
 void loadBackGround() {
-    bool check = gBackGround.loadImage("images/Background/background1.png", gScreen);
+    bool check = gBackGround.loadImage("images/Background/sky.png", gScreen);
     if (!check) errorLog(std::cout, "Back ground render", true);
     gBackGround.setRectSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 }

@@ -16,8 +16,12 @@ public:
     void hitByProjectile(std::vector<SDL_Rect>& projectiles);
     bool isAlive() { return alive; }
     void dead() { alive = false; }
+    void getHit(const int& damage) { hp -= damage; }
+    void setHP(const int& hp) { this->hp = hp; }
+    int getHP() { return hp; }
 private:
 
+    int hp;
     bool alive;
 
     float xPos;

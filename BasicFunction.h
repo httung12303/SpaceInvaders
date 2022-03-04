@@ -31,7 +31,7 @@ const int ENEMY_VERTICAL_SPEED = 60;
 
 const int PLAYER_PROJ_SPEED = 20;
 
-const int PLAYER_ANIMATION_COUNT = 5;
+const int PLAYER_ANIMATION_COUNT = 25;
 const int ENEMY_ANIMATION_COUNT = 8;
 
 const int IDLE = 0;

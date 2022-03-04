@@ -10,6 +10,7 @@ Enemy::Enemy() {
     verticalDirection = MOVE_DOWN;
     changeDelay = 0;
     alive = true;
+    hp = 3;
 }
 
 Enemy::~Enemy() {

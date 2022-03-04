@@ -3,16 +3,6 @@
 #include "BasicFunction.h"
 #include "Enemy.h"
 
-class Input {
-public:
-    int left;
-    int right;
-    int up;
-    int down;
-    int jump;
-    const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
-};
-
 class Player : public BaseObject {
 public:
     Player();
@@ -35,6 +25,8 @@ private:
 
     bool alive;
 
+    int damage;
+
     unsigned int lastShot = 0;
 
     float xPos;
@@ -45,7 +37,7 @@ private:
 
     SDL_Rect frameClip[PLAYER_ANIMATION_COUNT];
 
-    Input input;
+    //Input input;
 
     int currentFrame;
 
@@ -60,4 +52,6 @@ private:
     BaseObject projectileObject;
 
     std::vector < SDL_Rect > projectiles;
+
+    const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
 };
