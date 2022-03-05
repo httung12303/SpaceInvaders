@@ -20,7 +20,7 @@ public:
     bool isAlive() { return alive;}
     void hitEnemy(Enemy& enemy);
     void showProjectiles(SDL_Renderer* des);
-    void enemyContact(Enemy enemy);
+    void enemyContact(Enemy& enemy);
     void dead() { alive = 0; }
 
 private:

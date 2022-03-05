@@ -56,7 +56,10 @@ int main(int argc, char* argv[]) {
         if (testEnemy.isAlive()) {
             testEnemy.show(gScreen);
             mainChar.hitEnemy(testEnemy);
-            //mainChar.enemyContact(testEnemy);
+            mainChar.enemyContact(testEnemy);
+            if (testEnemy.isAlive()) {
+                testEnemy.newPos();
+            }
         }
 
         if (mainChar.isAlive()) {

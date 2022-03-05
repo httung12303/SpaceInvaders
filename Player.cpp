@@ -10,6 +10,7 @@ Player::Player() {
     frameHeight = 0;
     alive = true;
     damage = 1;
+    lastShot = SDL_GetTicks();
 }
 
 Player::~Player() {
@@ -153,16 +154,18 @@ void Player::hitEnemy(Enemy& enemy) {
     }
 }
 
-/*void Player::enemyContact(Enemy enemy) {
+void Player::enemyContact(Enemy& enemy) {
     SDL_Rect playerHitbox = this->getHitBox();
     SDL_Rect enemyHitbox = enemy.getHitBox();
-    if (playerHitbox.x >= enemyHitbox.x + enemyHitbox.w || playerHitbox.x + playerHitbox.w <= enemyHitbox.x || playerHitbox.y + playerHitbox.h >= enemyHitbox.y || playerHitbox.y <= enemyHitbox.y + enemyHitbox.h)
+    //std::cout << playerHitbox.x << ' ' << playerHitbox.y << ' ' << playerHitbox.w << ' ' << playerHitbox.h << '\n';
+    //std::cout << enemyHitbox.x << ' ' << enemyHitbox.y << ' ' << enemyHitbox.w << ' ' << enemyHitbox.h << '\n';
+    if (playerHitbox.x >= enemyHitbox.x + enemyHitbox.w || playerHitbox.x + playerHitbox.w <= enemyHitbox.x || playerHitbox.y + playerHitbox.h <= enemyHitbox.y || playerHitbox.y >= enemyHitbox.y + enemyHitbox.h)
         return;
     unsigned int cur = SDL_GetTicks();
     if (cur - lastHitByEnemy < 1000)
         return;
-    lastHitByEnemy = cur;
+    lastHitByEnemy = cur;;
     lives--;
     if (lives <= 0) dead();
-}*/
+}
 

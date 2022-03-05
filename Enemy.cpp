@@ -8,7 +8,7 @@ Enemy::Enemy() {
     frameWidth = 0;
     horizontalDirection = MOVE_RIGHT;
     verticalDirection = MOVE_DOWN;
-    changeDelay = 0;
+    lastMove = SDL_GetTicks();
     alive = true;
     hp = 3;
 }
@@ -49,6 +49,13 @@ void Enemy::setClip() {
 }
 
 void Enemy::newPos() {
+
+    unsigned int curMove = SDL_GetTicks();
+    if (curMove < lastMove + 300) {
+        return;
+    }
+
+    lastMove = curMove;
 
     horizontalDirection = rand() % 3;
     verticalDirection = rand() % 3;
@@ -93,12 +100,6 @@ void Enemy::show(SDL_Renderer* des) {
 
     currentFrame++;
     currentFrame %= ENEMY_ANIMATION_COUNT;
-
-    changeDelay++;
-    changeDelay %= 5;
-    if (changeDelay == 0) {
-        newPos();
-    }
 
     //std::cout <<currentFrame <<std::endl;
 }

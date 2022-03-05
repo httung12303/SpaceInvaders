@@ -42,6 +42,6 @@ private:
 
     SDL_Rect frameClip[ENEMY_ANIMATION_COUNT];
 
-    int changeDelay;
+    unsigned int lastMove;
 
 };
