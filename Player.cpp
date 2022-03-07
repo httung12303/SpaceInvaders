@@ -11,6 +11,7 @@ Player::Player() {
     alive = true;
     damage = 1;
     lastShot = SDL_GetTicks();
+    lastFrameTick = SDL_GetTicks();
 }
 
 Player::~Player() {
@@ -57,9 +58,13 @@ void Player::setClip() {
 
 void Player::show(SDL_Renderer* des) {
 
-    currentFrame++;
-    currentFrame %= PLAYER_ANIMATION_COUNT;
-
+    unsigned int curFrameTick = SDL_GetTicks();
+    if (curFrameTick >= lastFrameTick + FRAME_DELAY) {
+        currentFrame++;
+        currentFrame %= PLAYER_ANIMATION_COUNT;
+        lastFrameTick = curFrameTick;
+    }
+    
     SDL_Rect renderQuad = { xPos, yPos, frameWidth, frameHeight };
 
     SDL_Rect* clip = &frameClip[currentFrame];
@@ -77,34 +82,42 @@ void Player::showProjectiles(SDL_Renderer* des) {
     projectileMove();
 }
 
-void Player::handleInput(SDL_Event e, SDL_Renderer* screen) {
+void Player::handleInput(SDL_Event e, SDL_Renderer* screen, SDL_Window* window) {
 
     if (e.type == SDL_KEYDOWN || e.type == SDL_KEYUP) {
         if (keyboardState[SDL_SCANCODE_UP] && !keyboardState[SDL_SCANCODE_DOWN]) {
             yPos -= PLAYER_VERTICAL_SPEED;
             if (yPos < minYPos) yPos = minYPos;
+            SDL_WarpMouseInWindow(window, xPos, yPos);
         }
         else if (!keyboardState[SDL_SCANCODE_UP] && keyboardState[SDL_SCANCODE_DOWN]) {
             yPos += PLAYER_VERTICAL_SPEED;
             if (yPos > maxYPos) yPos = maxYPos;
+            SDL_WarpMouseInWindow(window, xPos, yPos);
         }
         if (keyboardState[SDL_SCANCODE_LEFT] && !keyboardState[SDL_SCANCODE_RIGHT]) {
             xPos -= PLAYER_HORIZONTAL_SPEED;
             if (xPos < minXPos) xPos = minXPos;
+            SDL_WarpMouseInWindow(window, xPos, yPos);
         }
         else if (!keyboardState[SDL_SCANCODE_LEFT] && keyboardState[SDL_SCANCODE_RIGHT]) {
             xPos += PLAYER_HORIZONTAL_SPEED;
             if (xPos > maxXPos) xPos = maxXPos;
+            SDL_WarpMouseInWindow(window, xPos, yPos);
         }
-        if (keyboardState[SDL_SCANCODE_SPACE]) {
+
+        if (keyboardState[SDL_SCANCODE_SPACE] || e.type == SDL_MOUSEBUTTONDOWN) {
             unsigned int curShot = SDL_GetTicks();
             if (curShot - lastShot >= 300) {
                 shoot(screen);
                 lastShot = curShot;
             }
-        }
+        }  
     }
-
+    else if (e.type == SDL_MOUSEMOTION) {
+        xPos = e.motion.x;
+        yPos = e.motion.y;
+    }
 }
 
 void Player::resetPos() {
@@ -161,11 +174,36 @@ void Player::enemyContact(Enemy& enemy) {
     //std::cout << enemyHitbox.x << ' ' << enemyHitbox.y << ' ' << enemyHitbox.w << ' ' << enemyHitbox.h << '\n';
     if (playerHitbox.x >= enemyHitbox.x + enemyHitbox.w || playerHitbox.x + playerHitbox.w <= enemyHitbox.x || playerHitbox.y + playerHitbox.h <= enemyHitbox.y || playerHitbox.y >= enemyHitbox.y + enemyHitbox.h)
         return;
+    getHit();
+}
+
+void Player::hitByEnemy(Enemy& enemy) {
+
+    std::vector<SDL_Rect> enemyProjectiles = enemy.getProjectiles();
+    SDL_Rect playerHitBox = this->getHitBox();
+    std::cout << enemyProjectiles.size() << '\n';
+    for (int i = 0; i < enemyProjectiles.size();) {
+        SDL_Rect cur = enemyProjectiles[i];
+        if (playerHitBox.x > cur.x + cur.w || playerHitBox.x + playerHitBox.w < cur.x || playerHitBox.y > cur.y + cur.h || playerHitBox.y + playerHitBox.h < cur.y) {
+            i++;
+            continue;
+        }
+        if (getHit()) {
+            enemy.eraseProjectile(i);
+        }
+        else {
+            i++;
+        }
+    }
+}
+
+bool Player::getHit() {
     unsigned int cur = SDL_GetTicks();
     if (cur - lastHitByEnemy < 1000)
-        return;
-    lastHitByEnemy = cur;;
+        return false;
+    lastHitByEnemy = cur;
     lives--;
     if (lives <= 0) dead();
+    return true;
 }
 

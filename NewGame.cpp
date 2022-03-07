@@ -32,8 +32,12 @@ int main(int argc, char* argv[]) {
     testEnemy.loadImage("images/Characters/enemy.png", gScreen);
     testEnemy.setClip();
     testEnemy.setPos(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+    testEnemy.loadProjectile("images/Projectile/projectile2.png", gScreen);
 
     bool gameOver = false;
+
+    SDL_WarpMouseInWindow(gWindow, mainChar.getSpawnX(), mainChar.getSpawnY());
+    SDL_ShowCursor(SDL_DISABLE);
 
     while (!gameOver) {
 
@@ -43,7 +47,7 @@ int main(int argc, char* argv[]) {
             }
 
             if (mainChar.isAlive()) {
-                mainChar.handleInput(gEvent, gScreen);
+                mainChar.handleInput(gEvent, gScreen, gWindow);
             }
         }
 
@@ -53,8 +57,12 @@ int main(int argc, char* argv[]) {
 
         gBackGround.render(gScreen, NULL);
 
+        mainChar.showProjectiles(gScreen);
+        testEnemy.showProjectiles(gScreen);
+
         if (testEnemy.isAlive()) {
             testEnemy.show(gScreen);
+            //testEnemy
             mainChar.hitEnemy(testEnemy);
             mainChar.enemyContact(testEnemy);
             if (testEnemy.isAlive()) {
@@ -64,13 +72,12 @@ int main(int argc, char* argv[]) {
 
         if (mainChar.isAlive()) {
             mainChar.show(gScreen);
+            mainChar.hitByEnemy(testEnemy);
         }
 
-        mainChar.showProjectiles(gScreen);
-
         SDL_RenderPresent(gScreen);
-
-        SDL_Delay(100);
+           
+        //SDL_Delay(100);
     }
 
 

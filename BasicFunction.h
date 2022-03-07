@@ -29,7 +29,8 @@ const int PLAYER_VERTICAL_SPEED = 24;
 const int ENEMY_HORIZONTAL_SPEED = 60;
 const int ENEMY_VERTICAL_SPEED = 60;
 
-const int PLAYER_PROJ_SPEED = 20;
+const int PLAYER_PROJ_SPEED = 5;
+const int ENEMY_PROJ_SPEED = 6;
 
 const int PLAYER_ANIMATION_COUNT = 25;
 const int ENEMY_ANIMATION_COUNT = 8;
@@ -49,4 +50,6 @@ void waitUntilKeyPressed();
 void errorLog(std::ostream& os, std::string msg, bool fatal);
 
 void quitSDL();
+
+const unsigned int FRAME_DELAY = 100;
 

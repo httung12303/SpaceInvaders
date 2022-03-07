@@ -19,6 +19,12 @@ public:
     void getHit(const int& damage) { hp -= damage; }
     void setHP(const int& hp) { this->hp = hp; }
     int getHP() { return hp; }
+    void loadProjectile(std::string path, SDL_Renderer* screen);
+    void shoot();
+    void projectileMove();
+    void showProjectiles(SDL_Renderer* des);
+    void eraseProjectile(int i) { projectiles.erase(projectiles.begin() + i); }
+    std::vector<SDL_Rect> getProjectiles() { return projectiles; };
 private:
 
     int hp;
@@ -42,6 +48,13 @@ private:
 
     SDL_Rect frameClip[ENEMY_ANIMATION_COUNT];
 
-    unsigned int lastMove;
+    unsigned int lastMove = 0;
+    unsigned int lastShot = 0;
+    unsigned int lastFrameTick = 0;
+
+    BaseObject projectileObject;
+    std::vector < SDL_Rect > projectiles;
+
+    unsigned int frameChangeCooldown = 100;
 
 };

@@ -9,6 +9,7 @@ Enemy::Enemy() {
     horizontalDirection = MOVE_RIGHT;
     verticalDirection = MOVE_DOWN;
     lastMove = SDL_GetTicks();
+    lastShot = SDL_GetTicks();
     alive = true;
     hp = 3;
 }
@@ -92,21 +93,61 @@ void Enemy::newPos() {
 
 void Enemy::show(SDL_Renderer* des) {
 
+    unsigned int curFrameTick = SDL_GetTicks();
+    if (curFrameTick >= lastFrameTick + FRAME_DELAY) {
+        currentFrame++;
+        currentFrame %= ENEMY_ANIMATION_COUNT;
+        lastFrameTick = curFrameTick;
+    }
+
     SDL_Rect renderQuad = { xPos, yPos, frameWidth, frameHeight };
 
     SDL_Rect* renderClip = &frameClip[currentFrame];
 
     SDL_RenderCopy(des, objTexture, renderClip, &renderQuad);
 
-    currentFrame++;
-    currentFrame %= ENEMY_ANIMATION_COUNT;
+    shoot();
 
     //std::cout <<currentFrame <<std::endl;
 }
+
 
 SDL_Rect Enemy::getHitBox() {
     SDL_Rect result = { xPos, yPos, frameWidth, frameHeight };
     return result;
 }
 
+void Enemy::shoot() {
+    unsigned int curShot = SDL_GetTicks();
+    if (curShot < lastShot + 1000) {
+        return;
+    }
+    SDL_Rect temp = projectileObject.getRect();
+    SDL_Rect renderquad = { xPos + frameWidth / 2 - temp.w / 2, yPos - temp.h / 2, temp.w, temp.h };
+    projectiles.push_back(renderquad);
+    lastShot = curShot;
+}
 
+void Enemy::loadProjectile(std::string path, SDL_Renderer* screen) {
+    if (!projectileObject.loadImage(path, screen)) {
+        std::cout << SDL_GetError() << '\n';
+    }
+}
+
+void Enemy::showProjectiles(SDL_Renderer* des) {
+    for (int i = 0; i < projectiles.size(); i++) {
+        projectileObject.setRect(projectiles[i]);
+        projectileObject.render(des, NULL);
+    }
+
+    projectileMove();
+}
+
+void Enemy::projectileMove() {
+    for (int i = 0; i < projectiles.size(); i++) {
+        projectiles[i].y += ENEMY_PROJ_SPEED;
+        if (projectiles[i].y <= -projectiles[i].h) {
+            projectiles.erase(projectiles.begin() + (i--));
+        }
+    }
+}
