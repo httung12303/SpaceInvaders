@@ -49,10 +49,10 @@ void Enemy::setClip() {
     }
 }
 
-void Enemy::newPos() {
+void Enemy::randomNewPos() {
 
     unsigned int curMove = SDL_GetTicks();
-    if (curMove < lastMove + 300) {
+    if (curMove < lastMove + 100) {
         return;
     }
 
@@ -91,7 +91,9 @@ void Enemy::newPos() {
     }
 }
 
-void Enemy::show(SDL_Renderer* des) {
+void Enemy::show(SDL_Renderer*& des) {
+
+    //std::cout << getObjectTexture() << std::endl;
 
     unsigned int curFrameTick = SDL_GetTicks();
     if (curFrameTick >= lastFrameTick + FRAME_DELAY) {
@@ -105,8 +107,6 @@ void Enemy::show(SDL_Renderer* des) {
     SDL_Rect* renderClip = &frameClip[currentFrame];
 
     SDL_RenderCopy(des, objTexture, renderClip, &renderQuad);
-
-    shoot();
 
     //std::cout <<currentFrame <<std::endl;
 }

@@ -2,6 +2,7 @@
 #include "BaseObject.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "EnemyFormation.h"
 
 BaseObject gBackGround;
 
@@ -21,6 +22,9 @@ int main(int argc, char* argv[]) {
 
     loadBackGround();
 
+    EnemyFormation testFormation("formations/StackedRows.txt");
+    testFormation.loadEnemies("images/Characters/enemy.png", gScreen);
+
     Player mainChar;
     mainChar.loadImage("images/Characters/planeIII.png", gScreen);
     mainChar.setClip();
@@ -33,6 +37,8 @@ int main(int argc, char* argv[]) {
     testEnemy.setClip();
     testEnemy.setPos(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
     testEnemy.loadProjectile("images/Projectile/projectile2.png", gScreen);
+
+    
 
     bool gameOver = false;
 
@@ -47,7 +53,7 @@ int main(int argc, char* argv[]) {
             }
 
             if (mainChar.isAlive()) {
-                mainChar.handleInput(gEvent, gScreen, gWindow);
+               mainChar.handleInput(gEvent, gScreen, gWindow);
             }
         }
 
@@ -58,28 +64,31 @@ int main(int argc, char* argv[]) {
         gBackGround.render(gScreen, NULL);
 
         mainChar.showProjectiles(gScreen);
-        testEnemy.showProjectiles(gScreen);
+        //testEnemy.showProjectiles(gScreen);
 
-        if (testEnemy.isAlive()) {
-            testEnemy.show(gScreen);
-            //testEnemy
-            mainChar.hitEnemy(testEnemy);
-            mainChar.enemyContact(testEnemy);
-            if (testEnemy.isAlive()) {
-                testEnemy.newPos();
-            }
-        }
+        //if (testEnemy.isAlive()) {
+        //    testEnemy.show(gScreen);
+        //    //testEnemy
+        //    mainChar.hitEnemy(testEnemy);
+        //    mainChar.enemyContact(testEnemy);
+        //    if (testEnemy.isAlive()) {
+        //        testEnemy.randomNewPos();
+        //        testEnemy.shoot();
+        //    }
+        //}
 
         if (mainChar.isAlive()) {
             mainChar.show(gScreen);
-            mainChar.hitByEnemy(testEnemy);
+        //    mainChar.hitByEnemy(testEnemy);
         }
-
+        testFormation.show(gScreen);
         SDL_RenderPresent(gScreen);
            
         //SDL_Delay(100);
     }
 
+
+    
 
     quitSDL();
 

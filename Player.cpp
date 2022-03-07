@@ -47,11 +47,11 @@ void Player::setClip() {
         spawnXPos = WINDOW_WIDTH / 2 - frameWidth / 2;
         spawnYPos = WINDOW_HEIGHT / 10 * 9 - frameHeight / 2;
 
-        minXPos = 0;
-        maxXPos = WINDOW_WIDTH - frameWidth;
+        minXPos = 15;
+        maxXPos = WINDOW_WIDTH - frameWidth - 10;
 
-        minYPos = 0;
-        maxYPos = WINDOW_HEIGHT - frameHeight * 2 / 3;
+        minYPos = 15;
+        maxYPos = WINDOW_HEIGHT - frameHeight * 2 / 3 - 10;
     }
 
 }
@@ -106,7 +106,8 @@ void Player::handleInput(SDL_Event e, SDL_Renderer* screen, SDL_Window* window) 
             SDL_WarpMouseInWindow(window, xPos, yPos);
         }
 
-        if (keyboardState[SDL_SCANCODE_SPACE] || e.type == SDL_MOUSEBUTTONDOWN) {
+        if (keyboardState[SDL_SCANCODE_SPACE] || (e.type == SDL_MOUSEBUTTONDOWN)) {
+            if (e.type == SDL_MOUSEBUTTONDOWN) std::cout << "mousebuttondown" << std::endl;
             unsigned int curShot = SDL_GetTicks();
             if (curShot - lastShot >= 300) {
                 shoot(screen);
@@ -117,6 +118,17 @@ void Player::handleInput(SDL_Event e, SDL_Renderer* screen, SDL_Window* window) 
     else if (e.type == SDL_MOUSEMOTION) {
         xPos = e.motion.x;
         yPos = e.motion.y;
+
+        float memX = xPos;
+        float memY = yPos;
+
+        if (yPos < minYPos) yPos = minYPos;
+        if (yPos > maxYPos) yPos = maxYPos;
+        if (xPos < minXPos) xPos = minXPos;
+        if (xPos > maxXPos) xPos = maxXPos;
+
+        if(xPos != memX || yPos != memY ) 
+            SDL_WarpMouseInWindow(window, xPos, yPos);
     }
 }
 

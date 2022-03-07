@@ -10,8 +10,8 @@ public:
     bool loadImage(std::string path, SDL_Renderer* screen) override;
     SDL_Rect getHitBox() override;
     void setClip();
-    void show(SDL_Renderer* des);
-    void newPos();
+    void show(SDL_Renderer*& des);
+    void randomNewPos();
     void setPos(const int& x, const int& y) { xPos = x; yPos = y; }
     void hitByProjectile(std::vector<SDL_Rect>& projectiles);
     bool isAlive() { return alive; }
