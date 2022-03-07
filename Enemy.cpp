@@ -146,7 +146,7 @@ void Enemy::showProjectiles(SDL_Renderer* des) {
 void Enemy::projectileMove() {
     for (int i = 0; i < projectiles.size(); i++) {
         projectiles[i].y += ENEMY_PROJ_SPEED;
-        if (projectiles[i].y <= -projectiles[i].h) {
+        if (projectiles[i].y >= WINDOW_HEIGHT) {
             projectiles.erase(projectiles.begin() + (i--));
         }
     }

@@ -181,7 +181,7 @@ void Player::hitByEnemy(Enemy& enemy) {
 
     std::vector<SDL_Rect> enemyProjectiles = enemy.getProjectiles();
     SDL_Rect playerHitBox = this->getHitBox();
-    std::cout << enemyProjectiles.size() << '\n';
+    //std::cout << enemyProjectiles.size() << '\n';
     for (int i = 0; i < enemyProjectiles.size();) {
         SDL_Rect cur = enemyProjectiles[i];
         if (playerHitBox.x > cur.x + cur.w || playerHitBox.x + playerHitBox.w < cur.x || playerHitBox.y > cur.y + cur.h || playerHitBox.y + playerHitBox.h < cur.y) {
