@@ -106,7 +106,10 @@ void Enemy::show(SDL_Renderer*& des) {
 
     SDL_Rect* renderClip = &frameClip[currentFrame];
 
-    SDL_RenderCopy(des, objTexture, renderClip, &renderQuad);
+    if (SDL_RenderCopy(des, objTexture, renderClip, &renderQuad) < 0) {
+        std::cout << SDL_GetError() << '\n';
+        exit(1);
+    }
 
     //std::cout <<currentFrame <<std::endl;
 }

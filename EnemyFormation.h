@@ -3,7 +3,6 @@
 #include "Enemy.h"
 #include "Player.h"
 
-const std::string STACKED_FORMATION = "formations/StackedRows.txt";
 class EnemyFormation {
 public:
 	EnemyFormation(const std::string path);

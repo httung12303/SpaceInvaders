@@ -13,7 +13,7 @@ public:
     SDL_Rect getHitBox() override;
     void setClip();
     void show(SDL_Renderer* des);
-    void handleInput(SDL_Event e, SDL_Renderer* screen, SDL_Window* window);
+    void handleInput(SDL_Event& e, SDL_Renderer* screen, SDL_Window* window);
     void resetPos();
     void shoot(SDL_Renderer* screen);
     void loadProjectile(std::string path, SDL_Renderer* screen);

@@ -24,6 +24,7 @@
     <ProjectGuid>{388555f6-2e8f-4705-8331-9906c31fb5d4}</ProjectGuid>
     <RootNamespace>NewGame</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>SpaceInvaders</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -146,7 +147,7 @@
     <ClCompile Include="BasicFunction.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFormation.cpp" />
-    <ClCompile Include="NewGame.cpp" />
+    <ClCompile Include="SpaceInvaders.cpp" />
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="StartScreen.cpp" />

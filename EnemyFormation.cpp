@@ -14,6 +14,7 @@ EnemyFormation::EnemyFormation(const std::string path) {
 		Enemy newEnemy;
 		newEnemy.setPos(x, y);
 		enemies.push_back(newEnemy);
+		std::cout << x << ' ' << y << std::endl;
 	}
 	file.close();
 	lastMove = SDL_GetTicks();
@@ -48,24 +49,23 @@ void EnemyFormation::loadProjectiles(const std::string path, SDL_Renderer* scree
 
 void EnemyFormation::show(SDL_Renderer* screen) {
 	for (Enemy &enemy : enemies) {
-		enemy.show(screen);
-		enemy.showProjectiles(screen);
+		if (enemy.isAlive()) {
+			enemy.show(screen);
+			enemy.showProjectiles(screen);
+		}
 	}
+
 }
 
 void EnemyFormation::interactWithPlayer(Player& player) {
-	for (int i = 0; i < enemies.size();) {
-		if (!enemies[i].isAlive()) {
-			enemies.erase(enemies.begin() + i);
-			continue;
-		}
-		enemies[i].shoot();
-		if (player.isAlive()) {
+	for (int i = 0; i < enemies.size(); i++) {
+
+		if (player.isAlive() && enemies[i].isAlive()) {
 			player.hitEnemy(enemies[i]);
 			player.enemyContact(enemies[i]);
 			player.hitByEnemy(enemies[i]);
+			enemies[i].shoot();
 		}
-		i++;
 	}
 }
 

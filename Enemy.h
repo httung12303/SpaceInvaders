@@ -14,6 +14,7 @@ public:
     void randomNewPos();
     void setPos(const int& x, const int& y) { xPos = x; yPos = y; }
     float getXPos() { return xPos; }
+    float getYPos() { return yPos; }
     void changeXPos(float amount) { xPos += amount; }
     void changeYPos(float amount) { yPos += amount; }
     void hitByProjectile(std::vector<SDL_Rect>& projectiles);

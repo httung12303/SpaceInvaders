@@ -15,9 +15,13 @@ static SDL_Renderer* gScreen = NULL;
 static SDL_Event gEvent;
 
 
+
 const int WINDOW_WIDTH = 1080;
 const int WINDOW_HEIGHT = 720;
-const std::string WINDOW_TITLE = "My Game";
+const std::string WINDOW_TITLE = "Space Invaders";
+
+const std::string STACKED_FORMATION = "formations/StackedRows.txt";
+const std::string WHEEL_FORMATION = "formations/Wheel.txt";
 
 const int COLOR_KEY_RED = 167;
 const int COLOR_KEY_GREEN = 175;

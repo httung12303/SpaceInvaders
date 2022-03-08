@@ -27,14 +27,15 @@ int main(int argc, char* argv[]) {
 
     startScreen.resetTitlePos();
 
-    EnemyFormation testFormation("formations/StackedRows.txt");
+    EnemyFormation testFormation(WHEEL_FORMATION);
     testFormation.loadEnemies("images/Characters/enemy.png", gScreen);
-    testFormation.loadProjectiles("images/Projectile/projectile2.png", gScreen);
+    testFormation.loadProjectiles("images/Projectile/lazer.png", gScreen);
+
     Player mainChar;
-    mainChar.loadImage("images/Characters/planeIII.png", gScreen);
+    mainChar.loadImage("images/Characters/plane.png", gScreen);
     mainChar.setClip();
     mainChar.resetPos();
-    mainChar.loadProjectile("images/Projectile/projectile2.png", gScreen);
+    mainChar.loadProjectile("images/Projectile/lazer.png", gScreen);
 
     /*Enemy testEnemy;
 
@@ -48,19 +49,20 @@ int main(int argc, char* argv[]) {
     bool gameOver = false;
     bool inStartScreen = true;
 
-    SDL_WarpMouseInWindow(gWindow, mainChar.getSpawnX(), mainChar.getSpawnY());
+    SDL_WarpMouseInWindow(gWindow, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
     SDL_ShowCursor(SDL_ENABLE);
 
     while (!gameOver) {
 
         if (inStartScreen) {
+
+            startScreen.handleInput(gEvent, gWindow, inStartScreen, gameOver);
+
             startScreen.show(gScreen);
 
-            if (SDL_PollEvent(&gEvent)) {
-                if (gEvent.type == SDL_KEYDOWN && gEvent.key.keysym.sym == SDLK_RETURN) {
-                    inStartScreen = false;
-                    SDL_ShowCursor(SDL_DISABLE);
-                }
+            if (!inStartScreen) {
+                SDL_WarpMouseInWindow(gWindow, mainChar.getSpawnX(), mainChar.getSpawnY());
+                SDL_ShowCursor(SDL_DISABLE);
             }
         }
         else {

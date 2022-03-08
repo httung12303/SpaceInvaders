@@ -82,7 +82,7 @@ void Player::showProjectiles(SDL_Renderer* des) {
     projectileMove();
 }
 
-void Player::handleInput(SDL_Event e, SDL_Renderer* screen, SDL_Window* window) {
+void Player::handleInput(SDL_Event& e, SDL_Renderer* screen, SDL_Window* window) {
 
     if (e.type == SDL_KEYDOWN || e.type == SDL_KEYUP) {
         if (keyboardState[SDL_SCANCODE_UP] && !keyboardState[SDL_SCANCODE_DOWN]) {
@@ -114,14 +114,20 @@ void Player::handleInput(SDL_Event e, SDL_Renderer* screen, SDL_Window* window) 
             SDL_WarpMouseInWindow(window, xPos, yPos);
         }
 
-        if (keyboardState[SDL_SCANCODE_SPACE] || (e.type == SDL_MOUSEBUTTONDOWN)) {
-            if (e.type == SDL_MOUSEBUTTONDOWN) std::cout << "mousebuttondown" << std::endl;
+        if (keyboardState[SDL_SCANCODE_SPACE]) {
             unsigned int curShot = SDL_GetTicks();
             if (curShot - lastShot >= 300) {
                 shoot(screen);
                 lastShot = curShot;
             }
-        }  
+        }
+    }
+    else if (e.type == SDL_MOUSEBUTTONDOWN) {
+        unsigned int curShot = SDL_GetTicks();
+        if (curShot - lastShot >= 300) {
+            shoot(screen);
+            lastShot = curShot;
+        }
     }
     else if (e.type == SDL_MOUSEMOTION) {
         xPos = e.motion.x;
@@ -162,7 +168,7 @@ void Player::projectileMove() {
 }
 
 SDL_Rect Player::getHitBox() {
-    SDL_Rect result = { xPos, yPos, frameWidth, frameHeight };
+    SDL_Rect result = { xPos + frameWidth / 3, yPos, frameWidth / 3, frameHeight };
     return result;
 }
 
