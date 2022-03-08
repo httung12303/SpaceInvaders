@@ -149,6 +149,7 @@
     <ClCompile Include="NewGame.cpp" />
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="StartScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseObject.h" />
@@ -156,6 +157,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyFormation.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="StartScreen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

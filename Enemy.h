@@ -13,6 +13,9 @@ public:
     void show(SDL_Renderer*& des);
     void randomNewPos();
     void setPos(const int& x, const int& y) { xPos = x; yPos = y; }
+    float getXPos() { return xPos; }
+    void changeXPos(float amount) { xPos += amount; }
+    void changeYPos(float amount) { yPos += amount; }
     void hitByProjectile(std::vector<SDL_Rect>& projectiles);
     bool isAlive() { return alive; }
     void dead() { alive = false; }

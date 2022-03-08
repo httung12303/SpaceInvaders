@@ -62,6 +62,9 @@ private:
     int maxXPos;
     int minXPos;
 
+    int horizontalMove = 0;
+    int verticalMove = 0;
+
     BaseObject projectileObject;
 
     std::vector < SDL_Rect > projectiles;

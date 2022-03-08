@@ -16,6 +16,7 @@ EnemyFormation::EnemyFormation(const std::string path) {
 		enemies.push_back(newEnemy);
 	}
 	file.close();
+	lastMove = SDL_GetTicks();
 }
 
 EnemyFormation::~EnemyFormation() {
@@ -39,12 +40,57 @@ void EnemyFormation::loadEnemies(const std::string imagePath, SDL_Renderer* scre
 
 }
 
+void EnemyFormation::loadProjectiles(const std::string path, SDL_Renderer* screen) {
+	for (Enemy& enemy : enemies) {
+		enemy.loadProjectile(path, screen);
+	}
+}
+
 void EnemyFormation::show(SDL_Renderer* screen) {
 	for (Enemy &enemy : enemies) {
 		enemy.show(screen);
+		enemy.showProjectiles(screen);
 	}
 }
 
 void EnemyFormation::interactWithPlayer(Player& player) {
+	for (int i = 0; i < enemies.size();) {
+		if (!enemies[i].isAlive()) {
+			enemies.erase(enemies.begin() + i);
+			continue;
+		}
+		enemies[i].shoot();
+		if (player.isAlive()) {
+			player.hitEnemy(enemies[i]);
+			player.enemyContact(enemies[i]);
+			player.hitByEnemy(enemies[i]);
+		}
+		i++;
+	}
+}
 
+void EnemyFormation::moveFormation() {
+	if (formationType == STACKED_FORMATION) {
+		if (enemies.size() <= 5) {
+			for (Enemy& enemy : enemies) {
+				enemy.randomNewPos();
+			}
+		}
+		else {
+			int horizontalMove = -60;
+			if (moveState == 0) horizontalMove = 60;
+			unsigned int curMoveTick = SDL_GetTicks();
+			if (lastMove + 1000 < curMoveTick) {
+				for (Enemy& enemy : enemies) {
+					enemy.changeXPos(horizontalMove);
+				}
+				lastMove = curMoveTick;
+				moveState++;
+				moveState %= 2;
+			}
+		}
+	}
+	/*for (Enemy& enemy : enemies) {
+		enemy.randomNewPos();
+	}*/
 }

@@ -47,11 +47,11 @@ void Player::setClip() {
         spawnXPos = WINDOW_WIDTH / 2 - frameWidth / 2;
         spawnYPos = WINDOW_HEIGHT / 10 * 9 - frameHeight / 2;
 
-        minXPos = 15;
-        maxXPos = WINDOW_WIDTH - frameWidth - 10;
+        minXPos = 20;
+        maxXPos = WINDOW_WIDTH - frameWidth - 20;
 
-        minYPos = 15;
-        maxYPos = WINDOW_HEIGHT - frameHeight * 2 / 3 - 10;
+        minYPos = 20;
+        maxYPos = WINDOW_HEIGHT - frameHeight * 2 / 3 - 20;
     }
 
 }
@@ -88,21 +88,29 @@ void Player::handleInput(SDL_Event e, SDL_Renderer* screen, SDL_Window* window) 
         if (keyboardState[SDL_SCANCODE_UP] && !keyboardState[SDL_SCANCODE_DOWN]) {
             yPos -= PLAYER_VERTICAL_SPEED;
             if (yPos < minYPos) yPos = minYPos;
+            verticalMove = MOVE_UP;
             SDL_WarpMouseInWindow(window, xPos, yPos);
         }
         else if (!keyboardState[SDL_SCANCODE_UP] && keyboardState[SDL_SCANCODE_DOWN]) {
             yPos += PLAYER_VERTICAL_SPEED;
             if (yPos > maxYPos) yPos = maxYPos;
+            verticalMove = MOVE_DOWN;
             SDL_WarpMouseInWindow(window, xPos, yPos);
         }
+        else {
+            verticalMove = IDLE;
+        }
+        
         if (keyboardState[SDL_SCANCODE_LEFT] && !keyboardState[SDL_SCANCODE_RIGHT]) {
             xPos -= PLAYER_HORIZONTAL_SPEED;
             if (xPos < minXPos) xPos = minXPos;
+            horizontalMove = MOVE_LEFT;
             SDL_WarpMouseInWindow(window, xPos, yPos);
         }
         else if (!keyboardState[SDL_SCANCODE_LEFT] && keyboardState[SDL_SCANCODE_RIGHT]) {
             xPos += PLAYER_HORIZONTAL_SPEED;
             if (xPos > maxXPos) xPos = maxXPos;
+            horizontalMove = MOVE_RIGHT;
             SDL_WarpMouseInWindow(window, xPos, yPos);
         }
 
@@ -119,16 +127,11 @@ void Player::handleInput(SDL_Event e, SDL_Renderer* screen, SDL_Window* window) 
         xPos = e.motion.x;
         yPos = e.motion.y;
 
-        float memX = xPos;
-        float memY = yPos;
-
         if (yPos < minYPos) yPos = minYPos;
         if (yPos > maxYPos) yPos = maxYPos;
         if (xPos < minXPos) xPos = minXPos;
         if (xPos > maxXPos) xPos = maxXPos;
 
-        if(xPos != memX || yPos != memY ) 
-            SDL_WarpMouseInWindow(window, xPos, yPos);
     }
 }
 
@@ -211,7 +214,7 @@ void Player::hitByEnemy(Enemy& enemy) {
 
 bool Player::getHit() {
     unsigned int cur = SDL_GetTicks();
-    if (cur - lastHitByEnemy < 1000)
+    if (cur - lastHitByEnemy < 3000)
         return false;
     lastHitByEnemy = cur;
     lives--;
