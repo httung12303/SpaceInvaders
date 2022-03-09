@@ -64,12 +64,14 @@ void Player::show(SDL_Renderer* des) {
         currentFrame %= PLAYER_ANIMATION_COUNT;
         lastFrameTick = curFrameTick;
     }
-    
-    SDL_Rect renderQuad = { xPos, yPos, frameWidth, frameHeight };
 
-    SDL_Rect* clip = &frameClip[currentFrame];
+    if (!(curFrameTick - lastHitByEnemy < 3000 && currentFrame % 2 == 1)) {
+        SDL_Rect renderQuad = { xPos, yPos, frameWidth, frameHeight };
 
-    SDL_RenderCopy(des, objTexture, clip, &renderQuad);
+        SDL_Rect* clip = &frameClip[currentFrame];
+
+        SDL_RenderCopy(des, objTexture, clip, &renderQuad);
+    }
 
 }
 

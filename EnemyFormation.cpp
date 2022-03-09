@@ -10,11 +10,15 @@ EnemyFormation::EnemyFormation(const std::string path) {
 	}
 	int x;
 	int y;
+	enemiesAlive = 0;
 	while (file >> x >> y) {
 		Enemy newEnemy;
 		newEnemy.setPos(x, y);
 		enemies.push_back(newEnemy);
-		std::cout << x << ' ' << y << std::endl;
+		posIndex[enemiesAlive] = enemiesAlive;
+		xPosArr[enemiesAlive] = x;
+		yPosArr[enemiesAlive++] = y;
+		//std::cout << xPosArr[cnt - 1] << ' ' << yPosArr[cnt - 1] << std::endl;
 	}
 	file.close();
 	lastMove = SDL_GetTicks();
@@ -25,7 +29,7 @@ EnemyFormation::~EnemyFormation() {
 }
 
 void EnemyFormation::loadEnemies(const std::string imagePath, SDL_Renderer* screen) {
-	for (Enemy &enemy : enemies) {
+	for (Enemy& enemy : enemies) {
 		if (!enemy.loadImage(imagePath, screen)) {
 			std::cout << "EnemyFormation::loadEnemies" << std::endl;
 		}
@@ -48,11 +52,11 @@ void EnemyFormation::loadProjectiles(const std::string path, SDL_Renderer* scree
 }
 
 void EnemyFormation::show(SDL_Renderer* screen) {
-	for (Enemy &enemy : enemies) {
+	for (Enemy& enemy : enemies) {
 		if (enemy.isAlive()) {
 			enemy.show(screen);
-			enemy.showProjectiles(screen);
 		}
+		enemy.showProjectiles(screen);
 	}
 
 }
@@ -64,14 +68,19 @@ void EnemyFormation::interactWithPlayer(Player& player) {
 			player.hitEnemy(enemies[i]);
 			player.enemyContact(enemies[i]);
 			player.hitByEnemy(enemies[i]);
-			enemies[i].shoot();
+			if (rand() % 50 == 1) {
+				enemies[i].shoot();
+			}
+			if (!enemies[i].isAlive()) {
+				enemiesAlive--;
+			}
 		}
 	}
 }
 
 void EnemyFormation::moveFormation() {
 	if (formationType == STACKED_FORMATION) {
-		if (enemies.size() <= 5) {
+		if (enemiesAlive <= 10) {
 			for (Enemy& enemy : enemies) {
 				enemy.randomNewPos();
 			}
@@ -90,7 +99,33 @@ void EnemyFormation::moveFormation() {
 			}
 		}
 	}
-	/*for (Enemy& enemy : enemies) {
-		enemy.randomNewPos();
-	}*/
+	else if (formationType == WHEEL_FORMATION) {
+		unsigned int curMoveTick = SDL_GetTicks();
+		if (lastMove + 200 < curMoveTick) {
+			for (int i = 0; i < 14; i++) {
+				int tempX = (xPosArr[(posIndex[i] + 1) % 14] - xPosArr[posIndex[i]]) / 8;
+				int tempY = (yPosArr[(posIndex[i] + 1) % 14] - yPosArr[posIndex[i]]) / 8;
+
+				enemies[i].changeXPos(tempX);
+				enemies[i].changeYPos(tempY);
+				if (moveState == 8) {
+					posIndex[i] = (posIndex[i] + 1) % 14;
+				}
+			}
+
+			for (int i = 14; i < 22; i++) {
+				int tempX = (xPosArr[(posIndex[i] - 1 - 14 + 8) % 8 + 14] - xPosArr[posIndex[i]]) / 8;
+				int tempY = (yPosArr[(posIndex[i] - 1 - 14 + 8) % 8 + 14] - yPosArr[posIndex[i]]) / 8;
+
+				enemies[i].changeXPos(tempX);
+				enemies[i].changeYPos(tempY);
+				if (moveState == 8) {
+					posIndex[i] = (posIndex[i] - 1 - 14 + 8) % 8 + 14;
+				}
+			}
+			lastMove = curMoveTick;
+			moveState++;
+			moveState %= 9;
+		}
+	}
 }

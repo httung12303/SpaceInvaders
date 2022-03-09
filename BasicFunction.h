@@ -16,7 +16,7 @@ static SDL_Event gEvent;
 
 
 
-const int WINDOW_WIDTH = 1080;
+const int WINDOW_WIDTH = 1140;
 const int WINDOW_HEIGHT = 720;
 const std::string WINDOW_TITLE = "Space Invaders";
 

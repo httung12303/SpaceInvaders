@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
     mainChar.loadImage("images/Characters/plane.png", gScreen);
     mainChar.setClip();
     mainChar.resetPos();
-    mainChar.loadProjectile("images/Projectile/lazer.png", gScreen);
+    mainChar.loadProjectile("images/Projectile/rocket.png", gScreen);
 
     /*Enemy testEnemy;
 

@@ -8,6 +8,8 @@ StartScreen::StartScreen(SDL_Renderer* screen) {
 	highlightedStartButton.loadImage("images/StartScreen/highlightedStartButton.png", screen);
 	highlightedExitButton.loadImage("images/StartScreen/highlightedExitButton.png", screen);
 
+	background.setRectSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+
 	SDL_Rect startButtonRect = startButton.getRect();
 	startButtonRect = { WINDOW_WIDTH / 2 - startButtonRect.w / 2, WINDOW_HEIGHT * 2 / 3, startButtonRect.w, startButtonRect.h };
 	startButton.setRect(startButtonRect);

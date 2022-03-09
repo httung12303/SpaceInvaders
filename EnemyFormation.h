@@ -19,4 +19,8 @@ private:
 	std::string formationType = "";
 	int moveState = 0;
 	int lastMove = 0;
+	int xPosArr[100];
+	int yPosArr[100];
+	int posIndex[100];
+	int enemiesAlive = 0;
 };
