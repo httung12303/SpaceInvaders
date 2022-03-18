@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player() {
+Player::Player(SDL_Renderer* screen) {
 
     lives = 3;
     currentFrame = PLAYER_ANIMATION_COUNT / 2 - 1;
@@ -12,6 +12,10 @@ Player::Player() {
     damage = 1;
     lastShot = SDL_GetTicks();
     lastFrameTick = SDL_GetTicks();
+    loadImage("images/Characters/plane.png", screen);
+    setClip();
+    resetPos();
+    loadProjectile("images/Projectile/rocket.png", screen);
 }
 
 Player::~Player() {

@@ -5,6 +5,7 @@
 #include "EnemyFormation.h"
 #include "StartScreen.h"
 #include "BackGroundMusic.h"
+#include "AirCraftBoss.h"
 
 BaseObject gBackGround;
 
@@ -23,15 +24,13 @@ int main(int argc, char* argv[]) {
 
     startScreen.resetTitlePos();
 
-    EnemyFormation testFormation(STACKED_FORMATION);
+   /* EnemyFormation testFormation(STACKED_FORMATION);
     testFormation.loadEnemies("images/Characters/enemy.png", gScreen);
-    testFormation.loadProjectiles("images/Projectile/lazer.png", gScreen);
+    testFormation.loadProjectiles("images/Projectile/lazer.png", gScreen);*/
 
-    Player mainChar;
-    mainChar.loadImage("images/Characters/plane.png", gScreen);
-    mainChar.setClip();
-    mainChar.resetPos();
-    mainChar.loadProjectile("images/Projectile/rocket.png", gScreen);
+    Player mainChar(gScreen);
+
+    AirCraftBoss testBoss(gScreen);
 
 
     bool gameOver = false;
@@ -74,12 +73,16 @@ int main(int argc, char* argv[]) {
 
             if (mainChar.isAlive()) {
                 mainChar.show(gScreen);
-                testFormation.interactWithPlayer(mainChar);
+                //testFormation.interactWithPlayer(mainChar);
             }
-            testFormation.show(gScreen);
+            //testFormation.show(gScreen);
+            if (testBoss.isAlive()) {
+                testBoss.show(gScreen);
+                testBoss.moveTowardsPlayer(mainChar.getHitBox());
+            }
             SDL_RenderPresent(gScreen);
 
-            testFormation.moveFormation();
+            /*testFormation.moveFormation();*/
         }
 
         SDL_RenderPresent(gScreen);
