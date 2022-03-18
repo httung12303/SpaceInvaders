@@ -25,7 +25,7 @@ EnemyFormation::EnemyFormation(const std::string path) {
 }
 
 EnemyFormation::~EnemyFormation() {
-
+	enemies.clear();
 }
 
 void EnemyFormation::loadEnemies(const std::string imagePath, SDL_Renderer* screen) {

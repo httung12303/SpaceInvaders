@@ -144,6 +144,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AirCraftBoss.cpp" />
+    <ClCompile Include="BackGroundMusic.cpp" />
     <ClCompile Include="BasicFunction.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFormation.cpp" />
@@ -153,6 +155,8 @@
     <ClCompile Include="StartScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AirCraftBoss.h" />
+    <ClInclude Include="BackGroundMusic.h" />
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="BasicFunction.h" />
     <ClInclude Include="Enemy.h" />

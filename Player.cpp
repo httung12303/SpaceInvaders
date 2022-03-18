@@ -15,7 +15,8 @@ Player::Player() {
 }
 
 Player::~Player() {
-
+    projectile.Free();
+    Mix_FreeChunk(fireSound);
 }
 
 bool Player::loadImage(std::string path, SDL_Renderer* screen) {
@@ -77,8 +78,8 @@ void Player::show(SDL_Renderer* des) {
 
 void Player::showProjectiles(SDL_Renderer* des) {
     for (int i = 0; i < projectiles.size(); i++) {
-        projectileObject.setRect(projectiles[i]);
-        projectileObject.render(des, NULL);
+        projectile.setRect(projectiles[i]);
+        projectile.render(des, NULL);
     }
 
     projectileMove();
@@ -118,16 +119,24 @@ void Player::handleInput(SDL_Event& e, SDL_Renderer* screen, SDL_Window* window)
 
         if (keyboardState[SDL_SCANCODE_SPACE]) {
             unsigned int curShot = SDL_GetTicks();
-            if (curShot - lastShot >= 300) {
+            if (curShot - lastShot >= 200) {
                 shoot(screen);
+                if (fireSound != NULL) {
+                    Mix_VolumeChunk(fireSound, 5);
+                    Mix_PlayChannel(-1, fireSound, 0);
+                }
                 lastShot = curShot;
             }
         }
     }
     else if (e.type == SDL_MOUSEBUTTONDOWN) {
         unsigned int curShot = SDL_GetTicks();
-        if (curShot - lastShot >= 300) {
+        if (curShot - lastShot >= 200) {
             shoot(screen);
+            if (fireSound != NULL) {
+                Mix_VolumeChunk(fireSound, 5);
+                Mix_PlayChannel(-1, fireSound, 0);
+            }
             lastShot = curShot;
         }
     }
@@ -149,13 +158,13 @@ void Player::resetPos() {
 }
 
 void Player::loadProjectile(std::string path, SDL_Renderer* screen) {
-    if (!projectileObject.loadImage(path, screen)) {
+    if (!projectile.loadImage(path, screen)) {
         std::cout << SDL_GetError() << '\n';
     }
 }
 
 void Player::shoot(SDL_Renderer* screen) {
-    SDL_Rect temp = projectileObject.getRect();
+    SDL_Rect temp = projectile.getRect();
     SDL_Rect renderquad = { xPos + frameWidth / 2 - temp.w / 2, yPos - temp.h / 2, temp.w, temp.h };
     projectiles.push_back(renderquad);
 }
@@ -195,9 +204,8 @@ void Player::enemyContact(Enemy& enemy) {
     SDL_Rect enemyHitbox = enemy.getHitBox();
     //std::cout << playerHitbox.x << ' ' << playerHitbox.y << ' ' << playerHitbox.w << ' ' << playerHitbox.h << '\n';
     //std::cout << enemyHitbox.x << ' ' << enemyHitbox.y << ' ' << enemyHitbox.w << ' ' << enemyHitbox.h << '\n';
-    if (playerHitbox.x >= enemyHitbox.x + enemyHitbox.w || playerHitbox.x + playerHitbox.w <= enemyHitbox.x || playerHitbox.y + playerHitbox.h <= enemyHitbox.y || playerHitbox.y >= enemyHitbox.y + enemyHitbox.h)
-        return;
-    getHit();
+    if (overlap(playerHitbox, enemyHitbox))
+        getHit();
 }
 
 void Player::hitByEnemy(Enemy& enemy) {
@@ -207,7 +215,7 @@ void Player::hitByEnemy(Enemy& enemy) {
     //std::cout << enemyProjectiles.size() << '\n';
     for (int i = 0; i < enemyProjectiles.size();) {
         SDL_Rect cur = enemyProjectiles[i];
-        if (playerHitBox.x > cur.x + cur.w || playerHitBox.x + playerHitBox.w < cur.x || playerHitBox.y > cur.y + cur.h || playerHitBox.y + playerHitBox.h < cur.y) {
+        if (!overlap(playerHitBox, cur)) {
             i++;
             continue;
         }
@@ -230,3 +238,9 @@ bool Player::getHit() {
     return true;
 }
 
+void Player::loadFireSound(const std::string path) {
+    fireSound = Mix_LoadWAV(path.c_str());
+    if (fireSound == NULL) {
+        std::cout << Mix_GetError() << std::endl;
+    }
+}

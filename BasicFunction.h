@@ -45,7 +45,7 @@ const int MOVE_LEFT = 2;
 const int MOVE_UP = 1;
 const int MOVE_DOWN = 2;
 
-void initData();
+void init();
 
 void loadBackGround();
 
@@ -54,6 +54,8 @@ void waitUntilKeyPressed();
 void errorLog(std::ostream& os, std::string msg, bool fatal);
 
 void quitSDL();
+
+bool overlap(const SDL_Rect& a, const SDL_Rect& b);
 
 const unsigned int FRAME_DELAY = 100;
 

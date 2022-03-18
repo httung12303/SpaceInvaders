@@ -23,6 +23,7 @@ public:
     void showProjectiles(SDL_Renderer* des);
     void enemyContact(Enemy& enemy);
     void dead() { alive = 0; }
+    void loadFireSound(const std::string path);
     int getSpawnX() { return spawnXPos; }
     int getSpawnY() { return spawnYPos; }
     int getFrameWidth() { return frameWidth; }
@@ -65,7 +66,9 @@ private:
     int horizontalMove = 0;
     int verticalMove = 0;
 
-    BaseObject projectileObject;
+    BaseObject projectile;
+
+    Mix_Chunk* fireSound = NULL;
 
     std::vector < SDL_Rect > projectiles;
 

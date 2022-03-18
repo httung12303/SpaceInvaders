@@ -56,9 +56,9 @@ private:
     unsigned int lastShot = 0;
     unsigned int lastFrameTick = 0;
 
-    BaseObject projectileObject;
+    BaseObject projectile;
     std::vector < SDL_Rect > projectiles;
 
-    unsigned int frameChangeCooldown = 100;
+    unsigned int frameChangeDelay = 100;
 
 };

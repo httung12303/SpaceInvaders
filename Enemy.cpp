@@ -15,7 +15,8 @@ Enemy::Enemy() {
 }
 
 Enemy::~Enemy() {
-
+    BaseObject::Free();
+    projectile.Free();
 }
 
 bool Enemy::loadImage(std::string path, SDL_Renderer* screen) {
@@ -125,22 +126,22 @@ void Enemy::shoot() {
     if (curShot < lastShot + 1000) {
         return;
     }
-    SDL_Rect temp = projectileObject.getRect();
+    SDL_Rect temp = projectile.getRect();
     SDL_Rect renderquad = { xPos + frameWidth / 2 - temp.w / 2, yPos - temp.h / 2, temp.w, temp.h };
     projectiles.push_back(renderquad);
     lastShot = curShot;
 }
 
 void Enemy::loadProjectile(std::string path, SDL_Renderer* screen) {
-    if (!projectileObject.loadImage(path, screen)) {
+    if (!projectile.loadImage(path, screen)) {
         std::cout << SDL_GetError() << '\n';
     }
 }
 
 void Enemy::showProjectiles(SDL_Renderer* des) {
     for (int i = 0; i < projectiles.size(); i++) {
-        projectileObject.setRect(projectiles[i]);
-        projectileObject.render(des, NULL);
+        projectile.setRect(projectiles[i]);
+        projectile.render(des, NULL);
     }
 
     projectileMove();

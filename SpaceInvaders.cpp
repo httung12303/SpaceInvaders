@@ -4,30 +4,26 @@
 #include "Enemy.h"
 #include "EnemyFormation.h"
 #include "StartScreen.h"
+#include "BackGroundMusic.h"
 
 BaseObject gBackGround;
 
-void initData();
-
 void loadBackGround();
 
-void waitUntilKeyPressed();
-
-void errorLog(std::ostream& os, std::string msg, bool fatal);
-
-void quitSDL();
 
 int main(int argc, char* argv[]) {
 
-    initData();
+    init();
 
     loadBackGround();
 
     StartScreen startScreen(gScreen);
 
+    BackGroundMusic music;
+
     startScreen.resetTitlePos();
 
-    EnemyFormation testFormation(WHEEL_FORMATION);
+    EnemyFormation testFormation(STACKED_FORMATION);
     testFormation.loadEnemies("images/Characters/enemy.png", gScreen);
     testFormation.loadProjectiles("images/Projectile/lazer.png", gScreen);
 
@@ -37,14 +33,6 @@ int main(int argc, char* argv[]) {
     mainChar.resetPos();
     mainChar.loadProjectile("images/Projectile/rocket.png", gScreen);
 
-    /*Enemy testEnemy;
-
-    testEnemy.loadImage("images/Characters/enemy.png", gScreen);
-    testEnemy.setClip();
-    testEnemy.setPos(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
-    testEnemy.loadProjectile("images/Projectile/projectile2.png", gScreen);*/
-
-    
 
     bool gameOver = false;
     bool inStartScreen = true;
@@ -66,6 +54,7 @@ int main(int argc, char* argv[]) {
             }
         }
         else {
+            music.play();
             if (SDL_PollEvent(&gEvent) != 0) {
                 if (gEvent.type == SDL_QUIT) {
                     gameOver = true;
@@ -103,7 +92,7 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
-void initData() {
+void init() {
 
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0) errorLog(std::cout, "SDL Init", true);
 
@@ -115,6 +104,15 @@ void initData() {
 
     int imgFlag = IMG_INIT_PNG;
     if (!(IMG_Init(imgFlag) & imgFlag)) std::cout << "IMG Init Error: " << IMG_GetError() << '\n';
+
+    if (Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 2048) < 0) {
+        std::cout << "SDL_mixer could not initialize! SDL_mixer Error: %s\n" << Mix_GetError() << std::endl;
+        exit(0);
+    }
+
+    if (Mix_Init(MIX_INIT_MP3) < 0) {
+        std::cout << Mix_GetError() << std::endl;
+    }
 
     SDL_SetRenderDrawColor(gScreen, 255, 255, 255, 255);
 
@@ -132,29 +130,6 @@ void loadBackGround() {
     gBackGround.setRectSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 }
 
-void waitUntilKeyPressed()
-{
-    SDL_Event e;
-
-    while (true) {
-        if (SDL_WaitEvent(&e) != 0 && (e.type == SDL_KEYDOWN || e.type == SDL_QUIT))
-            return;
-        SDL_Delay(100);
-    }
-
-}
-
-void errorLog(std::ostream& os, std::string msg, bool fatal) {
-
-    os << msg << " Error: " << SDL_GetError() << '\n';
-
-    if (fatal) {
-        SDL_Quit();
-        exit(1);
-    }
-
-}
-
 void quitSDL() {
 
     SDL_DestroyWindow(gWindow);
@@ -163,6 +138,8 @@ void quitSDL() {
 
     SDL_DestroyRenderer(gScreen);
     gScreen = NULL;
+
+    Mix_CloseAudio();
 
     SDL_Quit();
 
