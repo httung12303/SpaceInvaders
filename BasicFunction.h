@@ -34,7 +34,8 @@ const int ENEMY_HORIZONTAL_SPEED = 60;
 const int ENEMY_VERTICAL_SPEED = 60;
 
 const int PLAYER_PROJ_SPEED = 5;
-const int ENEMY_PROJ_SPEED = 6;
+const int ENEMY_STANDARD_PROJ_SPEED = 6;
+const int BOSS_ORB_SPEED = 10;
 
 const int PLAYER_ANIMATION_COUNT = 25;
 const int ENEMY_ANIMATION_COUNT = 8;
@@ -56,6 +57,7 @@ void errorLog(std::ostream& os, std::string msg, bool fatal);
 void quitSDL();
 
 bool overlap(const SDL_Rect& a, const SDL_Rect& b);
+
 
 const unsigned int FRAME_DELAY = 100;
 

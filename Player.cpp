@@ -192,7 +192,8 @@ void Player::hitEnemy(Enemy& enemy) {
 
     for (int i = 0; i < projectiles.size(); i++) {
         SDL_Rect cur = projectiles[i];
-        if (hitbox.x >= cur.x + cur.w || hitbox.x + hitbox.w <= cur.x || hitbox.y >= cur.y + cur.h || hitbox.y + hitbox.h <= cur.y)
+        //if (hitbox.x >= cur.x + cur.w || hitbox.x + hitbox.w <= cur.x || hitbox.y >= cur.y + cur.h || hitbox.y + hitbox.h <= cur.y)
+        if (!overlap(cur, hitbox))
             continue;
         if (!enemy.isAlive()) 
             continue;
@@ -212,7 +213,7 @@ void Player::enemyContact(Enemy& enemy) {
         getHit();
 }
 
-void Player::hitByEnemy(Enemy& enemy) {
+void Player::hitByStandardProjectiles(Enemy& enemy) {
 
     std::vector<SDL_Rect> enemyProjectiles = enemy.getProjectiles();
     SDL_Rect playerHitBox = this->getHitBox();
@@ -224,7 +225,7 @@ void Player::hitByEnemy(Enemy& enemy) {
             continue;
         }
         if (getHit()) {
-            enemy.eraseProjectile(i);
+            enemy.eraseStandardProjectile(i);
         }
         else {
             i++;
@@ -246,5 +247,44 @@ void Player::loadFireSound(const std::string path) {
     fireSound = Mix_LoadWAV(path.c_str());
     if (fireSound == NULL) {
         std::cout << Mix_GetError() << std::endl;
+    }
+}
+
+void Player::hitByOrbCircle(AirCraftBoss& boss) {
+    std::vector<SDL_Rect> orbCircle = boss.getOrbCircle();
+    std::vector<bool> orbState = boss.getOrbState();
+    SDL_Rect playerHitBox = this->getHitBox();
+    for (int i = 0; i < orbCircle.size();) {
+        if (!overlap(orbCircle[i], playerHitBox)) {
+            i++;
+            continue;
+        }
+        if (!orbState[i] && getHit()) {
+            boss.deleteOrb(i);
+        }
+        else {
+            i++;
+        }
+    }
+}
+
+void Player::hitByAirCraftBoss(AirCraftBoss& boss) {
+    hitByStandardProjectiles(boss);
+    hitByOrbCircle(boss);
+}
+
+void Player::hitAirCraftBoss(AirCraftBoss& boss) {
+    if (!boss.isAlive()) {
+        return;
+    }
+    std::vector<SDL_Rect> hitboxes = boss.getHitBoxes();
+    for (int i = 0; i < projectiles.size(); i++) {
+        for (int j = 0; j < hitboxes.size(); j++) {
+            if (overlap(projectiles[i], hitboxes[j]) && boss.isAlive()) {
+                boss.getHit(damage);
+                projectiles.erase(projectiles.begin() + (i--));
+                break;
+            }
+        }
     }
 }

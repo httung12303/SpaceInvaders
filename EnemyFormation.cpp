@@ -56,7 +56,7 @@ void EnemyFormation::show(SDL_Renderer* screen) {
 		if (enemy.isAlive()) {
 			enemy.show(screen);
 		}
-		enemy.showProjectiles(screen);
+		enemy.showStandardProjectiles(screen);
 	}
 
 }
@@ -67,7 +67,7 @@ void EnemyFormation::interactWithPlayer(Player& player) {
 		if (player.isAlive() && enemies[i].isAlive()) {
 			player.hitEnemy(enemies[i]);
 			player.enemyContact(enemies[i]);
-			player.hitByEnemy(enemies[i]);
+			player.hitByStandardProjectiles(enemies[i]);
 			if (rand() % 50 == 1) {
 				enemies[i].shoot();
 			}

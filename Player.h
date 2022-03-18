@@ -2,6 +2,7 @@
 #include "BaseObject.h"
 #include "BasicFunction.h"
 #include "Enemy.h"
+#include "AirCraftBoss.h"
 #include <vector>
 
 class Player : public BaseObject {
@@ -28,8 +29,11 @@ public:
     int getSpawnY() { return spawnYPos; }
     int getFrameWidth() { return frameWidth; }
     int getFrameHeight() { return frameHeight; }
-    void hitByEnemy(Enemy& enemy);
+    void hitByStandardProjectiles(Enemy& enemy);
+    void hitByOrbCircle(AirCraftBoss& boss);
+    void hitByAirCraftBoss(AirCraftBoss& boss);
     bool getHit();
+    void hitAirCraftBoss(AirCraftBoss& boss);
 
 private:
     

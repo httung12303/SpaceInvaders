@@ -24,14 +24,13 @@ int main(int argc, char* argv[]) {
 
     startScreen.resetTitlePos();
 
-   /* EnemyFormation testFormation(STACKED_FORMATION);
+    /*EnemyFormation testFormation(STACKED_FORMATION);
     testFormation.loadEnemies("images/Characters/enemy.png", gScreen);
     testFormation.loadProjectiles("images/Projectile/lazer.png", gScreen);*/
 
     Player mainChar(gScreen);
 
     AirCraftBoss testBoss(gScreen);
-
 
     bool gameOver = false;
     bool inStartScreen = true;
@@ -74,15 +73,20 @@ int main(int argc, char* argv[]) {
             if (mainChar.isAlive()) {
                 mainChar.show(gScreen);
                 //testFormation.interactWithPlayer(mainChar);
+                mainChar.hitAirCraftBoss(testBoss);
+                mainChar.hitByAirCraftBoss(testBoss);
+                mainChar.enemyContact(testBoss);
             }
             //testFormation.show(gScreen);
             if (testBoss.isAlive()) {
-                testBoss.show(gScreen);
+                testBoss.render(gScreen, NULL);
                 testBoss.moveTowardsPlayer(mainChar.getHitBox());
+                testBoss.shoot();
+                testBoss.showProjectiles(gScreen);
             }
             SDL_RenderPresent(gScreen);
 
-            /*testFormation.moveFormation();*/
+            //testFormation.moveFormation();
         }
 
         SDL_RenderPresent(gScreen);

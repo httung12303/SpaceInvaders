@@ -25,11 +25,11 @@ public:
     int getHP() { return hp; }
     void loadProjectile(std::string path, SDL_Renderer* screen);
     void shoot();
-    void projectileMove();
-    void showProjectiles(SDL_Renderer* des);
-    void eraseProjectile(int i) { projectiles.erase(projectiles.begin() + i); }
-    std::vector<SDL_Rect> getProjectiles() { return projectiles; };
-private:
+    void standardProjectileMove();
+    void showStandardProjectiles(SDL_Renderer* des);
+    void eraseStandardProjectile(int i) { enemiesStandardProjectile.erase(enemiesStandardProjectile.begin() + i); }
+    std::vector<SDL_Rect> getProjectiles() { return enemiesStandardProjectile; };
+protected:
 
     int hp;
     bool alive;
@@ -53,11 +53,11 @@ private:
     SDL_Rect frameClip[ENEMY_ANIMATION_COUNT];
 
     unsigned int lastMove = 0;
-    unsigned int lastShot = 0;
+    unsigned int lastStandardShot = 0;
     unsigned int lastFrameTick = 0;
 
-    BaseObject projectile;
-    std::vector < SDL_Rect > projectiles;
+    BaseObject standardProjectile;
+    std::vector < SDL_Rect > enemiesStandardProjectile;
 
     unsigned int frameChangeDelay = 100;
 

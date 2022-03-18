@@ -9,14 +9,14 @@ Enemy::Enemy() {
     horizontalDirection = MOVE_RIGHT;
     verticalDirection = MOVE_DOWN;
     lastMove = SDL_GetTicks();
-    lastShot = SDL_GetTicks();
+    lastStandardShot = SDL_GetTicks();
     alive = true;
     hp = 3;
 }
 
 Enemy::~Enemy() {
     BaseObject::Free();
-    projectile.Free();
+    standardProjectile.Free();
 }
 
 bool Enemy::loadImage(std::string path, SDL_Renderer* screen) {
@@ -123,35 +123,35 @@ SDL_Rect Enemy::getHitBox() {
 
 void Enemy::shoot() {
     unsigned int curShot = SDL_GetTicks();
-    if (curShot < lastShot + 1000) {
+    if (curShot < lastStandardShot + 1000) {
         return;
     }
-    SDL_Rect temp = projectile.getRect();
-    SDL_Rect renderquad = { xPos + frameWidth / 2 - temp.w / 2, yPos - temp.h / 2, temp.w, temp.h };
-    projectiles.push_back(renderquad);
-    lastShot = curShot;
+    SDL_Rect temp = standardProjectile.getRect();
+    SDL_Rect projRect = { xPos + frameWidth / 2 - temp.w / 2, yPos - temp.h / 2, temp.w, temp.h };
+    enemiesStandardProjectile.push_back(projRect);
+    lastStandardShot = curShot;
 }
 
 void Enemy::loadProjectile(std::string path, SDL_Renderer* screen) {
-    if (!projectile.loadImage(path, screen)) {
+    if (!standardProjectile.loadImage(path, screen)) {
         std::cout << SDL_GetError() << '\n';
     }
 }
 
-void Enemy::showProjectiles(SDL_Renderer* des) {
-    for (int i = 0; i < projectiles.size(); i++) {
-        projectile.setRect(projectiles[i]);
-        projectile.render(des, NULL);
+void Enemy::showStandardProjectiles(SDL_Renderer* des) {
+    for (int i = 0; i < enemiesStandardProjectile.size(); i++) {
+        standardProjectile.setRect(enemiesStandardProjectile[i]);
+        standardProjectile.render(des, NULL);
     }
 
-    projectileMove();
+    standardProjectileMove();
 }
 
-void Enemy::projectileMove() {
-    for (int i = 0; i < projectiles.size(); i++) {
-        projectiles[i].y += ENEMY_PROJ_SPEED;
-        if (projectiles[i].y >= WINDOW_HEIGHT) {
-            projectiles.erase(projectiles.begin() + (i--));
+void Enemy::standardProjectileMove() {
+    for (int i = 0; i < enemiesStandardProjectile.size(); i++) {
+        enemiesStandardProjectile[i].y += ENEMY_STANDARD_PROJ_SPEED;
+        if (enemiesStandardProjectile[i].y >= WINDOW_HEIGHT) {
+            enemiesStandardProjectile.erase(enemiesStandardProjectile.begin() + (i--));
         }
     }
 }
