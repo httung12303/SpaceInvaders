@@ -53,7 +53,7 @@ void Enemy::setClip() {
 void Enemy::randomNewPos() {
 
     unsigned int curMove = SDL_GetTicks();
-    if (curMove < lastMove + 100) {
+    if (curMove < lastMove + 1000) {
         return;
     }
 

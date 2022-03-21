@@ -12,9 +12,9 @@ public:
     void setRectSize(const int& w, const int& h) { objRect.w = w; objRect.h = h; }
     SDL_Rect getRect() const { return objRect; }
     SDL_Texture* getObjectTexture() const { return objTexture; }
-
     virtual bool loadImage(std::string path, SDL_Renderer* screen);
     void render(SDL_Renderer* des, const SDL_Rect* clip = NULL);
+    void render(SDL_Renderer* des, double angle, const SDL_Point* center, SDL_RendererFlip flip, SDL_Rect* clip = NULL);
     virtual SDL_Rect getHitBox();
     void Free();
 

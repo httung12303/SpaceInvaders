@@ -31,10 +31,10 @@ public:
     int getFrameHeight() { return frameHeight; }
     void hitByStandardProjectiles(Enemy& enemy);
     void hitByOrbCircle(AirCraftBoss& boss);
+    void hitByHomingMissile(AirCraftBoss& boss);
     void hitByAirCraftBoss(AirCraftBoss& boss);
     bool getHit();
     void hitAirCraftBoss(AirCraftBoss& boss);
-
 private:
     
     int lives;

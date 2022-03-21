@@ -268,6 +268,24 @@ void Player::hitByOrbCircle(AirCraftBoss& boss) {
     }
 }
 
+void Player::hitByHomingMissile(AirCraftBoss& boss) {
+    std::vector<SDL_Rect> missileRect = boss.getHomingMissilesRect();
+    std::vector<bool> missileState = boss.getHomingMissilesState();
+    SDL_Rect playerHitBox = this->getHitBox();
+    for (int i = 0; i < missileRect.size();) {
+        if (!overlap(missileRect[i], playerHitBox)) {
+            i++;
+            continue;
+        }
+        if (!missileState[i] && getHit()) {
+            boss.deleteHomingMissile(i);
+        }
+        else {
+            i++;
+        }
+    }
+}
+
 void Player::hitByAirCraftBoss(AirCraftBoss& boss) {
     hitByStandardProjectiles(boss);
     hitByOrbCircle(boss);

@@ -82,7 +82,7 @@ int main(int argc, char* argv[]) {
                 testBoss.render(gScreen, NULL);
                 testBoss.moveTowardsPlayer(mainChar.getHitBox());
                 testBoss.shoot();
-                testBoss.showProjectiles(gScreen);
+                testBoss.showProjectiles(gScreen, mainChar.getHitBox());
             }
             SDL_RenderPresent(gScreen);
 

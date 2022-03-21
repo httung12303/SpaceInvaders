@@ -60,3 +60,8 @@ void BaseObject::Free() {
 SDL_Rect BaseObject::getHitBox() {
     return objRect;
 }
+
+void BaseObject::render(SDL_Renderer* des, double angle, const SDL_Point* center, SDL_RendererFlip flip, SDL_Rect* clip ) {
+    //SDL_Point point = { objRect.x / 2, objRect.y / 2 };
+    SDL_RenderCopyEx(des, objTexture, clip, &objRect, angle, center, flip);
+}
