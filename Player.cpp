@@ -290,6 +290,7 @@ void Player::hitByAirCraftBoss(AirCraftBoss& boss) {
     hitByStandardProjectiles(boss);
     hitByOrbCircle(boss);
     hitByHomingMissile(boss);
+    hitByOmegaBeam(boss);
 }
 
 void Player::hitAirCraftBoss(AirCraftBoss& boss) {
@@ -304,6 +305,18 @@ void Player::hitAirCraftBoss(AirCraftBoss& boss) {
                 projectiles.erase(projectiles.begin() + (i--));
                 break;
             }
+        }
+    }
+}
+
+void Player::hitByOmegaBeam(AirCraftBoss& boss) {
+    std::vector<SDL_Rect> omegaBeamHitboxes = boss.getOmegaBeamRects();
+    SDL_Rect playerHitbox = this->getHitBox();
+    for (int i = 0; i < omegaBeamHitboxes.size(); i++) {
+        omegaBeamHitboxes[i].x += 30;
+        omegaBeamHitboxes[i].w = 70;
+        if (overlap(omegaBeamHitboxes[i], playerHitbox)) {
+            getHit();
         }
     }
 }

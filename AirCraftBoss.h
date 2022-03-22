@@ -23,6 +23,7 @@ public:
 	std::vector<bool> getOrbState() { return orbDeleted; }
 	std::vector<SDL_Rect> getHomingMissilesRect() { return homingMissilesRect; }
 	std::vector<bool> getHomingMissilesState() { return homingMissilesDeleted; }
+	std::vector<SDL_Rect> getOmegaBeamRects() { return omegaBeamRects; }
 	void deleteOrb(int i) { orbDeleted[i] = true; }
 	std::vector<SDL_Rect> getHitBoxes();
 	void moveHomingMissiles(const SDL_Rect& playerHitbox);
@@ -48,5 +49,5 @@ private:
 	std::vector<double> homingMissilesAngle;
 	std::vector<bool> homingMissilesDeleted;
 	std::vector<int> homingMissileExplosionState;
-	std::vector<SDL_Rect> omegaBeams;
+	std::vector<SDL_Rect> omegaBeamRects;
 };

@@ -8,7 +8,7 @@ bool Explosion::loadImage(std::string path, SDL_Renderer* des) {
 	}
 	for (int i = 0; i < 56; i++) {
 		clip.push_back({ (i % 10) * 120, (int)(i / 10) * 120, objRect.w / 10, objRect.h / 6});
-		std::cout << (i % 10) * 120 << ' ' << (int)(i / 10) * 120 << ' ' << objRect.w / 10 << ' ' << objRect.h / 6 << std::endl;
+		//std::cout << (i % 10) * 120 << ' ' << (int)(i / 10) * 120 << ' ' << objRect.w / 10 << ' ' << objRect.h / 6 << std::endl;
 	}
 	frameWidth = objRect.w / 10;
 	frameHeight = objRect.h / 6;

@@ -11,7 +11,7 @@ AirCraftBoss::AirCraftBoss(SDL_Renderer* screen) {
 	orb.loadImage("images/Projectile/redorb.png", screen);
 	homingMissile.loadImage("images/Projectile/Super_Buddy.png", screen);
 	explosion.loadImage("images/Effects/explosion2.png", screen);
-	omegaBeam.loadImage("images/Projectile/omegaBeam3.png", screen);
+	omegaBeam.loadImage("images/Projectile/omegaBeam.png", screen);
 	enemiesStandardProjectile.clear();
 	orbCircle.clear();
 	orbDeleted.clear();
@@ -53,8 +53,8 @@ void AirCraftBoss::shoot() {
 	SDL_Rect bossRect = this->getRect();
 	SDL_Rect projRect;
 
-	if (curShot > lastOmegaBeam + 3000) {
-		omegaBeams.clear();
+	if (curShot > lastOmegaBeam + 5000) {
+		omegaBeamRects.clear();
 	}
 
 	if (curShot > lastHomingMissiles + 5000) {
@@ -88,7 +88,7 @@ void AirCraftBoss::shoot() {
 			orbDeleted.push_back(false);
 			orbCircle.push_back({orbStartX, orbStartY, orb.getRect().w, orb.getRect().h});
 		}
-		std::cout << orbCircle.size() << std::endl;
+		//std::cout << orbCircle.size() << std::endl;
 		lastOrbCircle = curShot;
 	}
 
@@ -116,12 +116,12 @@ void AirCraftBoss::shoot() {
 		lastHomingMissiles = curShot;
 	}
 
-	if (curShot > lastOmegaBeam + 5000) {
+	if (hp % 30 == 0 && hp < MAX_BOSS_HP && curShot > lastOmegaBeam + 5000) {
 		SDL_Rect temp = omegaBeam.getRect();
-		projRect = { bossRect.x - 30, bossRect.y + bossRect.h - 170, omegaBeam.getFrameWidth(), omegaBeam.getFrameHeight() };
-		omegaBeams.push_back(projRect);
+		projRect = { bossRect.x - 37, bossRect.y + bossRect.h - 170, omegaBeam.getFrameWidth(), omegaBeam.getFrameHeight() };
+		omegaBeamRects.push_back(projRect);
 		projRect = { bossRect.x + bossRect.w + 30, bossRect.y + bossRect.h - 170, omegaBeam.getFrameWidth(), omegaBeam.getFrameHeight() };
-		omegaBeams.push_back(projRect);
+		omegaBeamRects.push_back(projRect);
 		lastOmegaBeam = curShot;
 	}
 }
@@ -215,20 +215,20 @@ void AirCraftBoss::showExplosion(SDL_Renderer* screen) {
 }
 
 void AirCraftBoss::showOmegaBeam(SDL_Renderer* screen) {
-	for (int i = 0; i < omegaBeams.size(); i++) {
-		omegaBeam.setRect(omegaBeams[i]);
+	for (int i = 0; i < omegaBeamRects.size(); i++) {
+		omegaBeam.setRect(omegaBeamRects[i]);
 		omegaBeam.show(screen, omegaBeamFrame % 12);
 	}
 	omegaBeamFrame = (omegaBeamFrame + 1) % 12;
 }
 
 void AirCraftBoss::moveOmegaBeam() {
-	if (omegaBeams.size() < 2) {
+	if (omegaBeamRects.size() < 2) {
 		return;
 	}
 	SDL_Rect bossRect = this->getRect();
-	SDL_Rect projRect = { bossRect.x - 40, bossRect.y + bossRect.h - 180, omegaBeam.getFrameWidth(), omegaBeam.getFrameHeight() };
-	omegaBeams[0] = projRect;
+	SDL_Rect projRect = { bossRect.x - 37, bossRect.y + bossRect.h - 180, omegaBeam.getFrameWidth(), omegaBeam.getFrameHeight() };
+	omegaBeamRects[0] = projRect;
 	projRect = { bossRect.x + bossRect.w - omegaBeam.getFrameWidth() + 45, bossRect.y + bossRect.h - 180, omegaBeam.getFrameWidth(), omegaBeam.getFrameHeight()};
-	omegaBeams[1] = projRect;
+	omegaBeamRects[1] = projRect;
 }

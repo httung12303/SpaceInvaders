@@ -35,6 +35,7 @@ public:
     void hitByAirCraftBoss(AirCraftBoss& boss);
     bool getHit();
     void hitAirCraftBoss(AirCraftBoss& boss);
+    void hitByOmegaBeam(AirCraftBoss& boss);
 private:
     
     int lives;
