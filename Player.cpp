@@ -289,6 +289,7 @@ void Player::hitByHomingMissile(AirCraftBoss& boss) {
 void Player::hitByAirCraftBoss(AirCraftBoss& boss) {
     hitByStandardProjectiles(boss);
     hitByOrbCircle(boss);
+    hitByHomingMissile(boss);
 }
 
 void Player::hitAirCraftBoss(AirCraftBoss& boss) {
