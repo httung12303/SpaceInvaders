@@ -9,6 +9,7 @@
 #include <fstream>
 #include <ctime>
 #include <vector>
+#include <fstream>
 
 static SDL_Window* gWindow = NULL;
 static SDL_Renderer* gScreen = NULL;

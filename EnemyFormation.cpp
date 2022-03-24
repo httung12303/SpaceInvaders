@@ -1,5 +1,5 @@
 #include "EnemyFormation.h"
-#include <fstream>
+
 EnemyFormation::EnemyFormation(const std::string path) {
 	formationType = path;
 	enemies.clear();
