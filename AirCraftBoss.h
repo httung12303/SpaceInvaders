@@ -6,7 +6,6 @@
 #include "OmegaBeam.h"
 
 const int MAX_BOSS_HP = 300;
-const int BOSS_SPEED = 4;
 
 class AirCraftBoss : public Enemy {
 public:
@@ -31,6 +30,7 @@ public:
 	void deleteHomingMissile(int i) { homingMissilesDeleted[i] = true; }
 	void showExplosion(SDL_Renderer* screen);
 	void showOmegaBeam(SDL_Renderer* screen);
+	void showHPBar(SDL_Renderer* screen);
 	void moveOmegaBeam();
 private:
 	unsigned int lastMove;

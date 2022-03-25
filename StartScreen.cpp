@@ -79,6 +79,8 @@ void StartScreen::show(SDL_Renderer* screen) {
 		titleRect.y += TITLE_FALL_SPEED;
 		title.setRect(titleRect);
 	}
+
+	SDL_RenderPresent(screen);
 }
 
 void StartScreen::handleInput(SDL_Event& event, SDL_Window*& window, bool& inStartScreen, bool& gameOver) {

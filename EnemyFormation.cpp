@@ -58,7 +58,6 @@ void EnemyFormation::show(SDL_Renderer* screen) {
 		}
 		enemy.showStandardProjectiles(screen);
 	}
-
 }
 
 void EnemyFormation::interactWithPlayer(Player& player) {

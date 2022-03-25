@@ -6,6 +6,8 @@
 #include "StartScreen.h"
 #include "BackGroundMusic.h"
 #include "AirCraftBoss.h"
+#include "BossLevel.h"
+#include "MobLevel.h"
 
 BaseObject gBackGround;
 
@@ -24,72 +26,43 @@ int main(int argc, char* argv[]) {
 
     startScreen.resetTitlePos();
 
-    /*EnemyFormation testFormation(STACKED_FORMATION);
-    testFormation.loadEnemies("images/Characters/enemy.png", gScreen);
-    testFormation.loadProjectiles("images/Projectile/lazer.png", gScreen);*/
+    MobLevel mobLevel(gScreen, WHEEL_FORMATION);
 
-    Player mainChar(gScreen);
+    Player player(gScreen);
+	
+    BossLevel bossLevel(gScreen);
 
-    AirCraftBoss testBoss(gScreen);
-
-    bool gameOver = false;
+    bool exitGame = false;
     bool inStartScreen = true;
 
     SDL_WarpMouseInWindow(gWindow, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
     SDL_ShowCursor(SDL_ENABLE);
 
-    while (!gameOver) {
+	/** level template
+        1. handleInput
+		2. level process
+    */
+    while (!exitGame) {
 
         if (inStartScreen) {
 
-            startScreen.handleInput(gEvent, gWindow, inStartScreen, gameOver);
+            startScreen.handleInput(gEvent, gWindow, inStartScreen, exitGame);
 
             startScreen.show(gScreen);
 
             if (!inStartScreen) {
-                SDL_WarpMouseInWindow(gWindow, mainChar.getSpawnX(), mainChar.getSpawnY());
+                SDL_WarpMouseInWindow(gWindow, player.getSpawnX(), player.getSpawnY());
                 SDL_ShowCursor(SDL_DISABLE);
             }
         }
         else {
             music.play();
-            if (SDL_PollEvent(&gEvent) != 0) {
-                if (gEvent.type == SDL_QUIT) {
-                    gameOver = true;
-                }
+            bossLevel.handleInput(gEvent, player, gWindow, gScreen, exitGame);
+            bossLevel.process(player, gScreen);
 
-                if (mainChar.isAlive()) {
-                    mainChar.handleInput(gEvent, gScreen, gWindow);
-                }
-            }
-
-            SDL_SetRenderDrawColor(gScreen, 255, 0, 255, 255);
-            SDL_RenderClear(gScreen);
-
-            gBackGround.render(gScreen, NULL);
-
-            mainChar.showProjectiles(gScreen);
-
-            if (mainChar.isAlive()) {
-                mainChar.show(gScreen);
-                //testFormation.interactWithPlayer(mainChar);
-                mainChar.hitAirCraftBoss(testBoss);
-                mainChar.hitByAirCraftBoss(testBoss);
-                mainChar.enemyContact(testBoss);
-            }
-            //testFormation.show(gScreen);
-            if (testBoss.isAlive()) {
-                testBoss.render(gScreen, NULL);
-                testBoss.moveTowardsPlayer(mainChar.getHitBox());
-                testBoss.shoot();
-                testBoss.showProjectiles(gScreen, mainChar.getHitBox());
-            }
-            SDL_RenderPresent(gScreen);
-
-            //testFormation.moveFormation();
+            /*mobLevel.handleInput(gEvent, player, gWindow, gScreen, exitGame);
+            mobLevel.process(player, gScreen);*/
         }
-
-        SDL_RenderPresent(gScreen);
            
     }
 

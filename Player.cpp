@@ -20,6 +20,7 @@ Player::Player(SDL_Renderer* screen) {
 
 Player::~Player() {
     projectile.Free();
+    Free();
     Mix_FreeChunk(fireSound);
 }
 

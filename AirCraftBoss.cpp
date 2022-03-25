@@ -28,7 +28,10 @@ AirCraftBoss::AirCraftBoss(SDL_Renderer* screen) {
 }
 
 AirCraftBoss::~AirCraftBoss() {
-
+	orb.Free();
+	omegaBeam.Free();
+	homingMissile.Free();
+	explosion.Free();
 }
 
 void AirCraftBoss::moveTowardsPlayer(const SDL_Rect& playerHitbox) {
@@ -53,7 +56,7 @@ void AirCraftBoss::shoot() {
 	SDL_Rect bossRect = this->getRect();
 	SDL_Rect projRect;
 
-	if (curShot > lastOmegaBeam + 5000) {
+	if (curShot > lastOmegaBeam + 3000) {
 		omegaBeamRects.clear();
 	}
 
@@ -63,7 +66,7 @@ void AirCraftBoss::shoot() {
 		}
 	}
 
-	if (curShot > lastStandardShot + 1000) {
+	if (curShot > lastStandardShot + 2000) {
 		SDL_Rect temp = standardProjectile.getRect();
 		SDL_Rect projRect;
 		projRect = { bossRect.x + 20, bossRect.y + bossRect.h - temp.h / 2 - 150, temp.w, temp.h };
@@ -231,4 +234,22 @@ void AirCraftBoss::moveOmegaBeam() {
 	omegaBeamRects[0] = projRect;
 	projRect = { bossRect.x + bossRect.w - omegaBeam.getFrameWidth() + 45, bossRect.y + bossRect.h - 180, omegaBeam.getFrameWidth(), omegaBeam.getFrameHeight()};
 	omegaBeamRects[1] = projRect;
+}
+
+void AirCraftBoss::showHPBar(SDL_Renderer* screen) {
+	//vertical hp bar
+	/*SDL_Rect hpBarRect = { 20, 40, 20, 200 };
+	SDL_SetRenderDrawColor(screen, 0, 0, 0, 255);
+	SDL_RenderFillRect(screen, &hpBarRect);
+	SDL_SetRenderDrawColor(screen, 255, 0, 0, 255);
+	SDL_Rect hpRect = { 20, 240 - 200 * hp / MAX_BOSS_HP, 20, 240 - (240 - 200 * hp / MAX_BOSS_HP)};
+	SDL_RenderFillRect(screen, &hpRect);*/
+	
+	//horizontal hp bar
+	SDL_Rect hpBarRect = { 150, 50, WINDOW_WIDTH - 300, 10 };
+	SDL_SetRenderDrawColor(screen, 0, 0, 0, 255);
+	SDL_RenderFillRect(screen, &hpBarRect);
+	SDL_SetRenderDrawColor(screen, 255, 0, 0, 255);
+	SDL_Rect hpRect = { 150, 50, (WINDOW_WIDTH - 300) * hp / MAX_BOSS_HP, 10};
+	SDL_RenderFillRect(screen, &hpRect); 
 }

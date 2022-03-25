@@ -147,9 +147,11 @@
     <ClCompile Include="AirCraftBoss.cpp" />
     <ClCompile Include="BackGroundMusic.cpp" />
     <ClCompile Include="BasicFunction.cpp" />
+    <ClCompile Include="BossLevel.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFormation.cpp" />
     <ClCompile Include="Explosion.cpp" />
+    <ClCompile Include="MobLevel.cpp" />
     <ClCompile Include="OmegaBeam.cpp" />
     <ClCompile Include="SpaceInvaders.cpp" />
     <ClCompile Include="BaseObject.cpp" />
@@ -161,9 +163,11 @@
     <ClInclude Include="BackGroundMusic.h" />
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="BasicFunction.h" />
+    <ClInclude Include="BossLevel.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyFormation.h" />
     <ClInclude Include="Explosion.h" />
+    <ClInclude Include="MobLevel.h" />
     <ClInclude Include="OmegaBeam.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="StartScreen.h" />
