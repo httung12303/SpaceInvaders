@@ -45,13 +45,25 @@ void StartScreen::resetTitlePos() {
 	title.setRect(newTitleRect);
 }
 
+void StartScreen::playMusic(const bool& musicPlaying) {
+	if (musicPlaying) {
+		if (Mix_PlayingMusic() == 0) {
+			Mix_PlayMusic(startScreenMusic, 0);
+		}
+		if (Mix_PausedMusic()) {
+			Mix_ResumeMusic();
+		}
+	}
+	else {
+		if (!Mix_PausedMusic()) {
+			Mix_PauseMusic();
+		}
+	}
+}
+
 void StartScreen::show(SDL_Renderer* screen) {
 	background.render(screen, NULL);
 	title.render(screen, NULL);
-
-	if (Mix_PlayingMusic() == 0) {
-		Mix_PlayMusic(startScreenMusic, 0);
-	}
 
 	if (currentButton == START_BUTTON) {
 		highlightedStartButton.render(screen, NULL);
@@ -83,45 +95,24 @@ void StartScreen::show(SDL_Renderer* screen) {
 	SDL_RenderPresent(screen);
 }
 
-void StartScreen::handleInput(SDL_Event& event, SDL_Window*& window, bool& inStartScreen, bool& gameOver) {
+void StartScreen::handleInput(SDL_Event& event, SDL_Window*& window, bool& inStartScreen, bool& inSettingsScreen, bool& gameOver) {
 	while (SDL_PollEvent(&event) != 0) {
-		if (event.type == SDL_KEYDOWN) {
-			switch (event.key.keysym.sym) {
-			case SDLK_UP:
-				currentButton = START_BUTTON;
-				break;
-			case SDLK_DOWN:
-				currentButton = EXIT_BUTTON;
-				break;
-			case SDLK_RETURN:
-				if (currentButton == START_BUTTON) {
-					inStartScreen = false;
-					Mix_PauseMusic();
-				}
-				else if (currentButton == EXIT_BUTTON) {
-					inStartScreen = false;
-					gameOver = true;
-					Mix_PauseMusic();
-				}
-				break;
-			}
-		}
-		else if(event.type == SDL_MOUSEMOTION) {
+		if(event.type == SDL_MOUSEMOTION) {
 			int x = event.motion.x;
 			int y = event.motion.y;
 
 			SDL_Rect temp = startButton.getRect();
-			if (!(x > temp.x + temp.w || x < temp.x || y < temp.y || y > temp.y + temp.h)) {
+			if (pointInsideRect(x, y, temp)) {
 				currentButton = START_BUTTON;
 			}
 			else {
 				temp = exitButton.getRect();
-				if (!(x > temp.x + temp.w || x < temp.x || y < temp.y || y > temp.y + temp.h)) {
+				if (pointInsideRect(x, y, temp)) {
 					currentButton = EXIT_BUTTON;
 				}
 				else {
 					temp = settingsButton.getRect();
-					if (!(x > temp.x + temp.w || x < temp.x || y < temp.y || y > temp.y + temp.h)) {
+					if (pointInsideRect(x, y, temp)) {
 						currentButton = SETTINGS_BUTTON;
 					}
 					else {
@@ -134,22 +125,24 @@ void StartScreen::handleInput(SDL_Event& event, SDL_Window*& window, bool& inSta
 			int x = event.motion.x;
 			int y = event.motion.y;
 
-			SDL_Rect temp = startButton.getRect();
-			if (!(x > temp.x + temp.w || x < temp.x || y < temp.y || y > temp.y + temp.h)) {
+			if (pointInsideRect(x, y, startButton.getRect())) {
 				inStartScreen = false;
-				Mix_PauseMusic();
 			}
-			else {
-				temp = exitButton.getRect();
-				if (!(x > temp.x + temp.w || x < temp.x || y < temp.y || y > temp.y + temp.h)) {
-					inStartScreen = false;
-					gameOver = true;
-					Mix_PauseMusic();
-				}
+			else if(pointInsideRect(x, y, exitButton.getRect())) {
+				inStartScreen = false;
+				gameOver = true;
+			}
+			else if (pointInsideRect(x, y, settingsButton.getRect())) {
+				inSettingsScreen = true;
 			}
 		}
 		else if (event.type == SDL_QUIT) {
-
+			gameOver = true;
 		}
 	}
+
+	if (!inStartScreen) {
+		Mix_HaltMusic();
+	}
+
 }

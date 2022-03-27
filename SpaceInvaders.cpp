@@ -8,6 +8,7 @@
 #include "AirCraftBoss.h"
 #include "BossLevel.h"
 #include "MobLevel.h"
+#include "SettingsScreen.h"
 
 BaseObject gBackGround;
 
@@ -17,53 +18,64 @@ void loadBackGround();
 int main(int argc, char* argv[]) {
 
     init();
-
     loadBackGround();
-
     StartScreen startScreen(gScreen);
-
+    SettingsScreen settingsScreen(gScreen);
     BackGroundMusic music;
-
     startScreen.resetTitlePos();
-
     MobLevel mobLevel(gScreen, WHEEL_FORMATION);
-
     Player player(gScreen);
-	
     BossLevel bossLevel(gScreen);
 
     bool exitGame = false;
     bool inStartScreen = true;
-
+    bool inSettingsScreen = false;
+    bool musicPlaying = true;
+    
+    float playerXPos;
+    float playerYPos;
     SDL_WarpMouseInWindow(gWindow, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
-    SDL_ShowCursor(SDL_ENABLE);
 
 	/** level template
         1. handleInput
 		2. level process
     */
     while (!exitGame) {
-
-        if (inStartScreen) {
-
-            startScreen.handleInput(gEvent, gWindow, inStartScreen, exitGame);
-
+        if (inSettingsScreen) {
+            if (inStartScreen) startScreen.playMusic(musicPlaying);
+            else music.play(musicPlaying);
+            SDL_ShowCursor(SDL_ENABLE);
+            settingsScreen.handleInput(inSettingsScreen, musicPlaying, exitGame);
+            settingsScreen.show(gScreen, musicPlaying);
+            if (!inSettingsScreen && !inStartScreen) {
+                SDL_WarpMouseInWindow(gWindow, playerXPos, playerYPos);
+            }
+        }
+        else if (inStartScreen) {
+            SDL_ShowCursor(SDL_ENABLE);
+            startScreen.playMusic(musicPlaying);
+            startScreen.handleInput(gEvent, gWindow, inStartScreen, inSettingsScreen, exitGame);
             startScreen.show(gScreen);
-
             if (!inStartScreen) {
                 SDL_WarpMouseInWindow(gWindow, player.getSpawnX(), player.getSpawnY());
                 SDL_ShowCursor(SDL_DISABLE);
             }
+            if (!inStartScreen || inSettingsScreen) {
+                startScreen.resetTitlePos();
+            }
         }
         else {
-            music.play();
-            bossLevel.handleInput(gEvent, player, gWindow, gScreen, exitGame);
+            music.play(musicPlaying);
+            SDL_ShowCursor(SDL_DISABLE);
+            bossLevel.handleInput(gEvent, player, gWindow, gScreen, inSettingsScreen, exitGame);
             bossLevel.process(player, gScreen);
-
-            /*mobLevel.handleInput(gEvent, player, gWindow, gScreen, exitGame);
+            /*mobLevel.handleInput(gEvent, player, gWindow, gScreen, inSettingsScreen, exitGame);
             mobLevel.process(player, gScreen);*/
-        }
-           
+            if (inSettingsScreen) {
+                playerXPos = player.getXPos();
+				playerYPos = player.getYPos();
+            }
+        } 
     }
 
     quitSDL();
@@ -115,11 +127,12 @@ void quitSDL() {
     SDL_DestroyWindow(gWindow);
     gWindow = NULL;
 
-
     SDL_DestroyRenderer(gScreen);
     gScreen = NULL;
 
     Mix_CloseAudio();
+	
+    IMG_Quit();
 
     SDL_Quit();
 

@@ -34,10 +34,13 @@ void BossLevel::process(Player& player, SDL_Renderer* screen) {
     SDL_RenderPresent(screen);
 }
 
-void BossLevel::handleInput(SDL_Event& event, Player& player, SDL_Window* window, SDL_Renderer* screen, bool& exitGame) {
+void BossLevel::handleInput(SDL_Event& event, Player& player, SDL_Window* window, SDL_Renderer* screen, bool& inSettingsScreen, bool& exitGame) {
     while (SDL_PollEvent(&event) != 0) {
         if (event.type == SDL_QUIT) {
             exitGame = true;
+        }
+        if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE) {
+            inSettingsScreen = true;
         }
         if (player.isAlive()) {
             player.handleInput(event, screen, window);

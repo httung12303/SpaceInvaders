@@ -9,7 +9,7 @@ public:
 	BossLevel(SDL_Renderer* screen);
 	~BossLevel();
 	void process(Player& player, SDL_Renderer* screen);
-	void handleInput(SDL_Event& event, Player& player, SDL_Window* window, SDL_Renderer* screen, bool& exitGame);
+	void handleInput(SDL_Event& event, Player& player, SDL_Window* window, SDL_Renderer* screen, bool& inSettingsScreen, bool& exitGame);
 private:
 	AirCraftBoss* boss = NULL;
 	BaseObject backGround;

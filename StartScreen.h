@@ -15,7 +15,8 @@ public:
 	~StartScreen();
 	void resetTitlePos();
 	void show(SDL_Renderer* screen);
-	void handleInput(SDL_Event& event, SDL_Window*& window, bool& inStartScreen, bool& gameOver);
+	void handleInput(SDL_Event& event, SDL_Window*& window, bool& inStartScreen, bool& inSettingsScreen, bool& gameOver);
+	void playMusic(const bool& musicPlaying);
 private:
 	BaseObject title;
 	BaseObject background;

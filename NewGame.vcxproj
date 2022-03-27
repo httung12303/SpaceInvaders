@@ -153,6 +153,7 @@
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="MobLevel.cpp" />
     <ClCompile Include="OmegaBeam.cpp" />
+    <ClCompile Include="SettingsScreen.cpp" />
     <ClCompile Include="SpaceInvaders.cpp" />
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="MobLevel.h" />
     <ClInclude Include="OmegaBeam.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="SettingsScreen.h" />
     <ClInclude Include="StartScreen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -61,6 +61,7 @@ void quitSDL();
 
 bool overlap(const SDL_Rect& a, const SDL_Rect& b);
 
+bool pointInsideRect(const int& x, const int& y, const SDL_Rect rect);
 
 const unsigned int FRAME_DELAY = 100;
 
