@@ -151,13 +151,16 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFormation.cpp" />
     <ClCompile Include="Explosion.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="MobLevel.cpp" />
     <ClCompile Include="OmegaBeam.cpp" />
+    <ClCompile Include="RetryScreen.cpp" />
     <ClCompile Include="SettingsScreen.cpp" />
     <ClCompile Include="SpaceInvaders.cpp" />
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="StartScreen.cpp" />
+    <ClCompile Include="VictoryScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AirCraftBoss.h" />
@@ -168,11 +171,14 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyFormation.h" />
     <ClInclude Include="Explosion.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="MobLevel.h" />
     <ClInclude Include="OmegaBeam.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="RetryScreen.h" />
     <ClInclude Include="SettingsScreen.h" />
     <ClInclude Include="StartScreen.h" />
+    <ClInclude Include="VictoryScreen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

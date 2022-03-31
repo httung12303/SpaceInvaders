@@ -36,6 +36,7 @@ public:
     bool getHit();
     void hitAirCraftBoss(AirCraftBoss& boss);
     void hitByOmegaBeam(AirCraftBoss& boss);
+    void reset();
     float getXPos() { return xPos; }
     float getYPos() { return yPos; }
 private:

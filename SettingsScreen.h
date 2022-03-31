@@ -17,12 +17,6 @@ private:
 	int currentButton;
 	BaseObject backGround;
 	BaseObject title;
-	BaseObject musicOn;
-	BaseObject musicOff;
-	BaseObject exitButton;
-	BaseObject returnButton;
-	BaseObject highlightedMusicOn;
-	BaseObject highlightedMusicOff;
-	BaseObject highlightedExitButton;
-	BaseObject highlightedReturnButton;
+	BaseObject buttons[4];
+	BaseObject highlightedButtons[4];
 };

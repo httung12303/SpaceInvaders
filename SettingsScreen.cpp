@@ -4,46 +4,43 @@ SettingsScreen::SettingsScreen(SDL_Renderer* screen) {
 	title.loadImage("images/SettingsScreen/Settings.png", screen);
 	backGround.loadImage("images/Background/sky.png", screen);
 	backGround.setRectSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-	musicOn.loadImage("images/SettingsScreen/MusicOn.png", screen);
-	musicOff.loadImage("images/SettingsScreen/MusicOff.png", screen);
-	exitButton.loadImage("images/SettingsScreen/exitbutton.png", screen);
-	returnButton.loadImage("images/SettingsScreen/Return.png", screen);
-	highlightedMusicOn.loadImage("images/SettingsScreen/HighlightedMusicOn.png", screen);
-	highlightedMusicOff.loadImage("images/SettingsScreen/HighlightedMusicOff.png", screen);	
-	highlightedExitButton.loadImage("images/SettingsScreen/highlightedExitButton.png", screen);
-	highlightedReturnButton.loadImage("images/SettingsScreen/HighlightedReturn.png", screen);
+	buttons[0].loadImage("images/SettingsScreen/MusicOn.png", screen);
+	buttons[1].loadImage("images/SettingsScreen/MusicOff.png", screen);
+	buttons[2].loadImage("images/SettingsScreen/exitbutton.png", screen);
+	buttons[3].loadImage("images/SettingsScreen/Return.png", screen);
+	highlightedButtons[0].loadImage("images/SettingsScreen/HighlightedMusicOn.png", screen);
+	highlightedButtons[1].loadImage("images/SettingsScreen/HighlightedMusicOff.png", screen);
+	highlightedButtons[2].loadImage("images/SettingsScreen/highlightedExitButton.png", screen);
+	highlightedButtons[3] .loadImage("images/SettingsScreen/HighlightedReturn.png", screen);
 	
 	SDL_Rect renderQuad = { WINDOW_WIDTH / 2 - title.getRect().w / 2, 150, title.getRect().w, title.getRect().h };
 	title.setRect(renderQuad);
 	
-	renderQuad = { WINDOW_WIDTH / 2 - musicOn.getRect().w / 2, 300, musicOn.getRect().w, musicOn.getRect().h };
-	musicOn.setRect(renderQuad);
-	highlightedMusicOn.setRect(renderQuad);
+	renderQuad = { WINDOW_WIDTH / 2 - buttons[0] .getRect().w / 2, 300, buttons[0].getRect().w, buttons[0].getRect().h};
+	buttons[0].setRect(renderQuad);
+	highlightedButtons[0].setRect(renderQuad);
 	
-	renderQuad = { WINDOW_WIDTH / 2 - musicOn.getRect().w / 2, 300, musicOff.getRect().w, musicOff.getRect().h };
-	musicOff.setRect(renderQuad);
-	highlightedMusicOff.setRect(renderQuad);
+	renderQuad = { WINDOW_WIDTH / 2 - buttons[1].getRect().w / 2, 300, buttons[1].getRect().w, buttons[1].getRect().h};
+	buttons[1].setRect(renderQuad);
+	highlightedButtons[1].setRect(renderQuad);
 	
-	renderQuad = { WINDOW_WIDTH / 2 - exitButton.getRect().w / 2, 400, exitButton.getRect().w, exitButton.getRect().h };
-	exitButton.setRect(renderQuad);
-	highlightedExitButton.setRect(renderQuad);
+	renderQuad = { WINDOW_WIDTH / 2 - buttons[2].getRect().w / 2, 400, buttons[2].getRect().w, buttons[2].getRect().h};
+	buttons[2].setRect(renderQuad);
+	highlightedButtons[2].setRect(renderQuad);
 	
-	renderQuad = { WINDOW_WIDTH / 2 - returnButton.getRect().w / 2, 500, returnButton.getRect().w, returnButton.getRect().h };
-	returnButton.setRect(renderQuad);
-	highlightedReturnButton.setRect(renderQuad);
+	renderQuad = { WINDOW_WIDTH / 2 - buttons[3].getRect().w / 2, 500, buttons[3].getRect().w, buttons[3].getRect().h};
+	buttons[3].setRect(renderQuad);
+	highlightedButtons[3].setRect(renderQuad);
 	
+	currentButton = SETTINGS_NONE;
 }
 
 SettingsScreen::~SettingsScreen() {
 	backGround.Free();
-	musicOn.Free();
-	musicOff.Free();
-	exitButton.Free();
-	returnButton.Free();
-	highlightedMusicOn.Free();
-	highlightedMusicOff.Free();
-	highlightedExitButton.Free();
-	highlightedReturnButton.Free();
+	for (int i = 0; i < 4; i++) {
+		buttons[i].Free();
+		highlightedButtons[i].Free();
+	}
 }
 
 void SettingsScreen::handleInput(bool& inSettingsScreen, bool& musicPlaying, bool& exitGame) {
@@ -55,11 +52,11 @@ void SettingsScreen::handleInput(bool& inSettingsScreen, bool& musicPlaying, boo
 			inSettingsScreen = false;
 			break;
 		case SDL_MOUSEMOTION:
-			if (pointInsideRect(event.motion.x, event.motion.y, musicOn.getRect()))
+			if (pointInsideRect(event.motion.x, event.motion.y, buttons[0].getRect()))
 				currentButton = SETTINGS_MUSIC_ON_BUTTON;
-			else if (pointInsideRect(event.motion.x, event.motion.y, exitButton.getRect()))
+			else if (pointInsideRect(event.motion.x, event.motion.y, buttons[2].getRect()))
 				currentButton = SETTINGS_EXIT_BUTTON;
-			else if (pointInsideRect(event.motion.x, event.motion.y, returnButton.getRect()))
+			else if (pointInsideRect(event.motion.x, event.motion.y, buttons[3].getRect()))
 				currentButton = SETTINGS_RETURN_BUTTON;
 			else
 				currentButton = SETTINGS_NONE;
@@ -85,24 +82,24 @@ void SettingsScreen::show(SDL_Renderer* screen, const bool& musicPlaying) {
 	title.render(screen);
 	if (musicPlaying) {
 		if(currentButton == SETTINGS_MUSIC_ON_BUTTON)
-			highlightedMusicOn.render(screen);
+			highlightedButtons[0].render(screen);
 		else
-			musicOn.render(screen);
+			buttons[0].render(screen);
 	}
 	else {
 		if (currentButton == SETTINGS_MUSIC_ON_BUTTON)
-			highlightedMusicOff.render(screen);
+			highlightedButtons[1].render(screen);
 		else
-			musicOff.render(screen);
+			buttons[1].render(screen);
 	}
 	if (currentButton == SETTINGS_EXIT_BUTTON)
-		highlightedExitButton.render(screen);
+		highlightedButtons[2].render(screen);
 	else
-		exitButton.render(screen);
+		buttons[2].render(screen);
 	if (currentButton == SETTINGS_RETURN_BUTTON)
-		highlightedReturnButton.render(screen);
+		highlightedButtons[3].render(screen);
 	else
-		returnButton.render(screen);
+		buttons[3].render(screen);
 	
 	SDL_RenderPresent(screen);
 }

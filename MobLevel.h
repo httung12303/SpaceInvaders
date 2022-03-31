@@ -10,6 +10,8 @@ public:
 	~MobLevel();
 	void process(Player& player, SDL_Renderer* screen);
 	void handleInput(SDL_Event& event, Player& player, SDL_Window* window, SDL_Renderer* screen, bool& inSettingsScreen, bool& exitGame);
+	void reset() { enemyFormation->reset();  }
+	bool mobLevelDefeated() { return enemyFormation->getNumberOfEnemies() == 0; }
 private:
 	EnemyFormation* enemyFormation = NULL;
 	BaseObject backGround;

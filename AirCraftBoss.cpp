@@ -28,12 +28,32 @@ AirCraftBoss::AirCraftBoss(SDL_Renderer* screen) {
 }
 
 AirCraftBoss::~AirCraftBoss() {
+	enemiesStandardProjectile.clear();
+	orbCircle.clear();
+	orbDeleted.clear();
+	homingMissilesRect.clear();
+	homingMissilesAngle.clear();
 	orb.Free();
 	omegaBeam.Free();
 	homingMissile.Free();
 	explosion.Free();
 }
 
+void AirCraftBoss::reset() {
+	alive = 1;
+	hp = MAX_BOSS_HP;
+	lastOrbCircle = SDL_GetTicks();
+	lastHomingMissiles = SDL_GetTicks();
+	lastOmegaBeam = SDL_GetTicks();
+	omegaBeamFrame = SDL_GetTicks();
+	setRect(WINDOW_WIDTH / 2 - this->getRect().w / 2, -50);
+	enemiesStandardProjectile.clear();
+	orbCircle.clear();
+	orbDeleted.clear();
+	homingMissilesRect.clear();
+	homingMissilesAngle.clear();
+	omegaBeamRects.clear();
+}
 void AirCraftBoss::moveTowardsPlayer(const SDL_Rect& playerHitbox) {
 	int playerCenter = playerHitbox.x + playerHitbox.w / 2;
 	int bossCenter = this->getRect().x + this->getRect().w / 2;
@@ -250,6 +270,6 @@ void AirCraftBoss::showHPBar(SDL_Renderer* screen) {
 	SDL_SetRenderDrawColor(screen, 0, 0, 0, 255);
 	SDL_RenderFillRect(screen, &hpBarRect);
 	SDL_SetRenderDrawColor(screen, 255, 0, 0, 255);
-	SDL_Rect hpRect = { 150, 50, (WINDOW_WIDTH - 300) * hp / MAX_BOSS_HP, 10};
+	SDL_Rect hpRect = { 150, 50, std::max((WINDOW_WIDTH - 300) * hp, 0) / MAX_BOSS_HP, 10};
 	SDL_RenderFillRect(screen, &hpRect); 
 }

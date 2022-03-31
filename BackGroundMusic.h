@@ -15,6 +15,7 @@ public:
 		while (std::getline(file, song)) {
 			if(file)
 				music.push_back(Mix_LoadMUS(song.c_str()));
+			//std::cout << song << std::endl;
 		}
 		file.close();
 		std::cout << music.size() << std::endl;
@@ -25,7 +26,7 @@ public:
 		if (musicPlaying) {
 			if (Mix_PlayingMusic() == 0) {
 				if (Mix_PlayMusic(music[currentSong], 0) < 0) {
-					std::cout << Mix_GetError() << std::endl;
+					std::cout << 1 << Mix_GetError() << std::endl;
 				}
 				currentSong++;
 				currentSong %= music.size();

@@ -12,15 +12,17 @@ public:
 	void show(SDL_Renderer* screen);
 	void interactWithPlayer(Player& player);
 	void moveFormation();
+	void reset();
+	int getNumberOfEnemies() { return enemiesAlive; }
 private:
 	std::vector<Enemy> enemies;
-	int formationVerticalDirection = 0;
-	int formationHorizontalDirection = 0;
 	std::string formationType = "";
 	int moveState = 0;
 	int lastMove = 0;
 	int xPosArr[100];
 	int yPosArr[100];
+	int startPosX[100];
+	int startPosY[100];
 	int posIndex[100];
 	int enemiesAlive = 0;
 };

@@ -16,8 +16,8 @@ EnemyFormation::EnemyFormation(const std::string path) {
 		newEnemy.setPos(x, y);
 		enemies.push_back(newEnemy);
 		posIndex[enemiesAlive] = enemiesAlive;
-		xPosArr[enemiesAlive] = x;
-		yPosArr[enemiesAlive++] = y;
+		xPosArr[enemiesAlive] = startPosX[enemiesAlive] = x;
+		yPosArr[enemiesAlive] = startPosY[enemiesAlive++] = y;
 		//std::cout << xPosArr[cnt - 1] << ' ' << yPosArr[cnt - 1] << std::endl;
 	}
 	file.close();
@@ -26,6 +26,20 @@ EnemyFormation::EnemyFormation(const std::string path) {
 
 EnemyFormation::~EnemyFormation() {
 	enemies.clear();
+}
+
+void EnemyFormation::reset() {
+	enemiesAlive = enemies.size();
+	moveState = 0;
+	lastMove = 0;
+	for (int i = 0; i < enemies.size(); i++) {
+		enemies[i].reset();
+		enemies[i].setPos(startPosX[i], startPosY[i]);
+		xPosArr[i] = startPosX[i];
+		yPosArr[i] = startPosY[i];
+		posIndex[i] = i;
+	}
+	
 }
 
 void EnemyFormation::loadEnemies(const std::string imagePath, SDL_Renderer* screen) {

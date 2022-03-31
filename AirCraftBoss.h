@@ -32,6 +32,7 @@ public:
 	void showOmegaBeam(SDL_Renderer* screen);
 	void showHPBar(SDL_Renderer* screen);
 	void moveOmegaBeam();
+	void reset();
 private:
 	unsigned int lastMove;
 	unsigned int lastOrbCircle;

@@ -2,7 +2,7 @@
 
 Player::Player(SDL_Renderer* screen) {
 
-    lives = 3;
+    lives = 5;
     currentFrame = PLAYER_ANIMATION_COUNT / 2 - 1;
     xPos = 0;
     yPos = 0;
@@ -22,6 +22,16 @@ Player::~Player() {
     projectile.Free();
     Free();
     Mix_FreeChunk(fireSound);
+}
+
+void Player::reset() {
+    setRect(getSpawnX(), getSpawnY());
+    lives = 5;
+    alive = true;
+    lastShot = SDL_GetTicks();
+    lastFrameTick = SDL_GetTicks();
+	projectiles.clear();
+    resetPos();
 }
 
 bool Player::loadImage(std::string path, SDL_Renderer* screen) {

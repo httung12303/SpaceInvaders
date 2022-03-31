@@ -17,10 +17,9 @@ public:
     float getYPos() { return yPos; }
     void changeXPos(float amount) { xPos += amount; }
     void changeYPos(float amount) { yPos += amount; }
-    void hitByProjectile(std::vector<SDL_Rect>& projectiles);
     bool isAlive() { return alive; }
     void dead() { alive = false; }
-    void getHit(const int& damage) { hp -= damage; }
+    void getHit(const int& damage) { hp -= damage; if (hp <= 0) dead(); }
     void setHP(const int& hp) { this->hp = hp; }
     int getHP() { return hp; }
     void loadProjectile(std::string path, SDL_Renderer* screen);
@@ -29,6 +28,7 @@ public:
     void showStandardProjectiles(SDL_Renderer* des);
     void eraseStandardProjectile(int i) { enemiesStandardProjectile.erase(enemiesStandardProjectile.begin() + i); }
     std::vector<SDL_Rect> getProjectiles() { return enemiesStandardProjectile; };
+    void reset();
 protected:
 
     int hp;

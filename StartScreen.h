@@ -20,12 +20,8 @@ public:
 private:
 	BaseObject title;
 	BaseObject background;
-	BaseObject startButton;
-	BaseObject exitButton;
-	BaseObject highlightedStartButton;
-	BaseObject highlightedExitButton;
-	BaseObject settingsButton;
-	BaseObject highlightedSettingsButton;
+	BaseObject buttons[3];
+	BaseObject highlightedButtons[3];
 	Mix_Music* startScreenMusic = NULL;
 	int currentButton;
 };

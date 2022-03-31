@@ -19,6 +19,14 @@ Enemy::~Enemy() {
     standardProjectile.Free();
 }
 
+void Enemy::reset() {
+    alive = true;
+    hp = 3;
+    lastMove = SDL_GetTicks();
+    enemiesStandardProjectile.clear();
+    currentFrame = 0;
+}
+
 bool Enemy::loadImage(std::string path, SDL_Renderer* screen) {
 
     bool check = BaseObject::loadImage(path, screen);
