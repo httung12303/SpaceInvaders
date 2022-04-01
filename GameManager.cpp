@@ -164,7 +164,7 @@ void GameManager::retryScreenProcess() {
 void GameManager::victoryScreenProcess() {
     SDL_ShowCursor(SDL_ENABLE);
     victoryScreen->show(screen, currentLevel == BOSS_LEVEL);
-    victoryScreen->handleInput(inStartScreen, exitGame);
+    victoryScreen->handleInput(inStartScreen, exitGame, currentLevel == BOSS_LEVEL);
     if (victoryScreen->playNextLevel() && currentLevel < BOSS_LEVEL) {
         currentLevel++;
         player->reset();
@@ -174,6 +174,18 @@ void GameManager::victoryScreenProcess() {
 			bossLevel->reset();
 		}
         victoryScreen->resetNextLevelOption();
+        SDL_WarpMouseInWindow(window, player->getSpawnX(), player->getSpawnY());
+    } else if(victoryScreen->restartGame() && currentLevel == BOSS_LEVEL) {
+		currentLevel = 0;
+		player->reset();
+		bossLevel->reset();
+		victoryScreen->resetRestartOption();
+		SDL_WarpMouseInWindow(window, player->getSpawnX(), player->getSpawnY());
+	}
+    else if (victoryScreen->replayBossLevel() && currentLevel == BOSS_LEVEL) {
+        player->reset();
+        bossLevel->reset();
+        victoryScreen->resetReplayBossOption();
         SDL_WarpMouseInWindow(window, player->getSpawnX(), player->getSpawnY());
     }
 }

@@ -22,6 +22,6 @@ protected:
 	bool tryAgain;
 	BaseObject backGround;
 	BaseObject title;
-	BaseObject buttons[3];
-	BaseObject highlightedButtons[3];
+	BaseObject buttons[5];
+	BaseObject highlightedButtons[5];
 };
