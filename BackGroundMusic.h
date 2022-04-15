@@ -18,7 +18,7 @@ public:
 			//std::cout << song << std::endl;
 		}
 		file.close();
-		std::cout << music.size() << std::endl;
+		//std::cout << music.size() << std::endl;
 		currentSong = 0;
 		Mix_VolumeMusic(100);
 	}

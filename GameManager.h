@@ -12,6 +12,7 @@
 #include "SettingsScreen.h"
 #include "RetryScreen.h"
 #include "VictoryScreen.h"
+#include "Level.h"
 
 class GameManager {
 public:
@@ -34,10 +35,10 @@ private:
     RetryScreen* retryScreen = NULL;
     VictoryScreen* victoryScreen = NULL;
     BackGroundMusic* music;
-    std::vector<MobLevel*> mobLevel;
+    std::vector<Level*> levels;
     Player* player = NULL;
-    BossLevel* bossLevel = NULL;
 	
+    bool playing;
     bool exitGame;
     bool inStartScreen;
     bool inSettingsScreen;

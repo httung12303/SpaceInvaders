@@ -40,7 +40,6 @@ GameManager::~GameManager() {
     delete startScreen;
     delete settingsScreen;
     delete player;
-    delete bossLevel;
     delete retryScreen;
     delete victoryScreen;
 }
@@ -60,17 +59,18 @@ void GameManager::loadGame() {
     startScreen->resetTitlePos();
     retryScreen = new RetryScreen(screen);
     victoryScreen = new VictoryScreen(screen);
-    mobLevel.push_back(new MobLevel(screen, WHEEL_FORMATION));
-	mobLevel.push_back(new MobLevel(screen, STACKED_FORMATION));
+    levels.push_back(new MobLevel(screen, WHEEL_FORMATION));
+	levels.push_back(new MobLevel(screen, STACKED_FORMATION));
+    levels.push_back(new BossLevel(screen));
     player = new Player(screen);
     music = new BackGroundMusic();
-    bossLevel = new BossLevel(screen);
-    BOSS_LEVEL = mobLevel.size();
+    BOSS_LEVEL = 2;
     exitGame = false;
     inStartScreen = true;
     inSettingsScreen = false;
     musicPlaying = true;
 	currentLevel = 0;
+    playing = false;
     SDL_WarpMouseInWindow(window, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
 }
 
@@ -81,6 +81,7 @@ void GameManager::run() {
         }
         else if (inStartScreen) {
             startScreenProcess();
+            playing = false;
         }
         else {
             music->play(musicPlaying);
@@ -88,24 +89,22 @@ void GameManager::run() {
                 retryScreenProcess();
                 if (inStartScreen) {
                     Mix_HaltMusic();
+                    playing = false;
                 }
                 continue;
             }
-            else if ((currentLevel < BOSS_LEVEL && mobLevel[currentLevel]->mobLevelDefeated()) || bossLevel->bossDefeated()) {
+            else if ((currentLevel < BOSS_LEVEL && ((MobLevel*)levels[currentLevel])->mobLevelDefeated()) || (currentLevel == BOSS_LEVEL && ((BossLevel*)levels[currentLevel])->bossDefeated())) {
                 victoryScreenProcess();
                 if (inStartScreen) {
                     Mix_HaltMusic();
+                    playing = false;
                 }
                 continue;
             }
+            playing = true;
             SDL_ShowCursor(SDL_DISABLE);
-            if (currentLevel == BOSS_LEVEL) {
-                bossLevel->handleInput(event, *player, window, screen, inSettingsScreen, exitGame);
-                bossLevel->process(*player, screen);
-            } else {
-				mobLevel[currentLevel]->handleInput(event, *player, window, screen, inSettingsScreen, exitGame);
-				mobLevel[currentLevel]->process(*player, screen);
-			}
+			levels[currentLevel]->handleInput(event, *player, window, screen, inSettingsScreen, exitGame);
+			levels[currentLevel]->process(*player, screen);
             if (inSettingsScreen) {
                 playerXPos = player->getXPos();
                 playerYPos = player->getYPos();
@@ -122,11 +121,7 @@ void GameManager::startScreenProcess() {
     if (!inStartScreen) {
         SDL_WarpMouseInWindow(window, player->getSpawnX(), player->getSpawnY());
         player->reset();
-        if (currentLevel == BOSS_LEVEL) {
-            bossLevel->reset();
-        } else {
-			mobLevel[currentLevel]->reset();
-		}
+        levels[currentLevel]->reset();
     }
     if (!inStartScreen || inSettingsScreen) {
         startScreen->resetTitlePos();
@@ -137,8 +132,8 @@ void GameManager::settingsScreenProcess() {
     SDL_ShowCursor(SDL_ENABLE);
     if (inStartScreen) startScreen->playMusic(musicPlaying);
     else music->play(musicPlaying);
-    settingsScreen->handleInput(inSettingsScreen, musicPlaying, exitGame);
-    settingsScreen->show(screen, musicPlaying);
+    settingsScreen->handleInput(inStartScreen, inSettingsScreen, musicPlaying, exitGame, player, levels[currentLevel], playing);
+    settingsScreen->show(screen, musicPlaying, playing);
     if (!inSettingsScreen && !inStartScreen) {
         SDL_WarpMouseInWindow(window, playerXPos, playerYPos);
     }
@@ -149,12 +144,7 @@ void GameManager::retryScreenProcess() {
     retryScreen->show(screen);
     retryScreen->handleInput(inStartScreen, exitGame);
     if (retryScreen->TryAgain()) {
-        if (currentLevel == BOSS_LEVEL) {
-            bossLevel->reset();
-        }
-        else {
-            mobLevel[currentLevel]->reset();
-        }
+        levels[currentLevel]->reset();
         player->reset();
         retryScreen->resetTryAgainOption();
         SDL_WarpMouseInWindow(window, player->getSpawnX(), player->getSpawnY());
@@ -168,23 +158,19 @@ void GameManager::victoryScreenProcess() {
     if (victoryScreen->playNextLevel() && currentLevel < BOSS_LEVEL) {
         currentLevel++;
         player->reset();
-        if (currentLevel < BOSS_LEVEL) {
-            mobLevel[currentLevel]->reset();
-        } else {
-			bossLevel->reset();
-		}
+        levels[currentLevel]->reset();
         victoryScreen->resetNextLevelOption();
         SDL_WarpMouseInWindow(window, player->getSpawnX(), player->getSpawnY());
     } else if(victoryScreen->restartGame() && currentLevel == BOSS_LEVEL) {
 		currentLevel = 0;
 		player->reset();
-		bossLevel->reset();
+		levels[BOSS_LEVEL]->reset();
 		victoryScreen->resetRestartOption();
 		SDL_WarpMouseInWindow(window, player->getSpawnX(), player->getSpawnY());
 	}
     else if (victoryScreen->replayBossLevel() && currentLevel == BOSS_LEVEL) {
         player->reset();
-        bossLevel->reset();
+        levels[BOSS_LEVEL]->reset();
         victoryScreen->resetReplayBossOption();
         SDL_WarpMouseInWindow(window, player->getSpawnX(), player->getSpawnY());
     }

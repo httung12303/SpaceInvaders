@@ -3,8 +3,9 @@
 #include "Enemy.h"
 #include "EnemyFormation.h"
 #include "BaseObject.h"
+#include "Level.h"
 
-class MobLevel {
+class MobLevel : public Level {
 public:
 	MobLevel(SDL_Renderer* screen, const std::string& formationPath);
 	~MobLevel();

@@ -3,8 +3,9 @@
 #include "BasicFunction.h"
 #include "AirCraftBoss.h"
 #include "Player.h"
+#include "Level.h"
 
-class BossLevel {
+class BossLevel : public Level {
 public:
 	BossLevel(SDL_Renderer* screen);
 	~BossLevel();

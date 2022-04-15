@@ -75,6 +75,7 @@ private:
     int verticalMove = 0;
 
     BaseObject projectile;
+    BaseObject heart;
 
     Mix_Chunk* fireSound = NULL;
 

@@ -16,6 +16,7 @@ Player::Player(SDL_Renderer* screen) {
     setClip();
     resetPos();
     loadProjectile("images/Projectile/rocket.png", screen);
+    heart.loadImage("images/Characters/heart.png", screen);
 }
 
 Player::~Player() {
@@ -87,6 +88,11 @@ void Player::show(SDL_Renderer* des) {
         SDL_Rect* clip = &frameClip[currentFrame];
 
         SDL_RenderCopy(des, objTexture, clip, &renderQuad);
+    }
+
+    for (int i = 0; i < lives; i++) {
+		heart.setRect(30 + i * (heart.getRect().w + 5), WINDOW_HEIGHT - heart.getRect().h - 10);
+        heart.render(des, NULL);
     }
 
 }
@@ -203,7 +209,6 @@ void Player::hitEnemy(Enemy& enemy) {
 
     for (int i = 0; i < projectiles.size(); i++) {
         SDL_Rect cur = projectiles[i];
-        //if (hitbox.x >= cur.x + cur.w || hitbox.x + hitbox.w <= cur.x || hitbox.y >= cur.y + cur.h || hitbox.y + hitbox.h <= cur.y)
         if (!overlap(cur, hitbox))
             continue;
         if (!enemy.isAlive()) 

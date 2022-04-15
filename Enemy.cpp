@@ -11,7 +11,7 @@ Enemy::Enemy() {
     lastMove = SDL_GetTicks();
     lastStandardShot = SDL_GetTicks();
     alive = true;
-    hp = 1;
+    hp = 3;
 }
 
 Enemy::~Enemy() {
@@ -21,7 +21,7 @@ Enemy::~Enemy() {
 
 void Enemy::reset() {
     alive = true;
-    hp = 1;
+    hp = 3;
     lastMove = SDL_GetTicks();
     enemiesStandardProjectile.clear();
     currentFrame = 0;
