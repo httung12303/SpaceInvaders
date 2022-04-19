@@ -8,7 +8,7 @@ RetryScreen::RetryScreen(SDL_Renderer* screen) {
 	highlightedButtons[0].loadImage("images/RetryScreen/highlightedRetry.png", screen);
 	highlightedButtons[1].loadImage("images/RetryScreen/highlightedReturn.png", screen);
 	highlightedButtons[2].loadImage("images/RetryScreen/highlightedExit.png", screen);
-	backGround.loadImage("images/Background/sky.png", screen);
+	backGround.loadImage(GALAXY_BACKGROUND_PATH, screen);
 	backGround.setRectSize(WINDOW_WIDTH, WINDOW_HEIGHT);	
 	SDL_Rect renderQuad = { WINDOW_WIDTH / 2 - title.getRect().w / 2, 150, title.getRect().w, title.getRect().h };
 	title.setRect(renderQuad);

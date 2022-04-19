@@ -165,10 +165,10 @@ void Player::handleInput(SDL_Event& e, SDL_Renderer* screen, SDL_Window* window)
         xPos = e.motion.x;
         yPos = e.motion.y;
 
-        if (yPos < minYPos) yPos = minYPos;
+        /*if (yPos < minYPos) yPos = minYPos;
         if (yPos > maxYPos) yPos = maxYPos;
         if (xPos < minXPos) xPos = minXPos;
-        if (xPos > maxXPos) xPos = maxXPos;
+        if (xPos > maxXPos) xPos = maxXPos;*/
 
     }
 }

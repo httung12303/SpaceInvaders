@@ -49,6 +49,10 @@ const int MOVE_LEFT = 2;
 const int MOVE_UP = 1;
 const int MOVE_DOWN = 2;
 
+const std::string SKY_BACKGROUND_PATH = "images/Background/sky.png";
+const std::string GALAXY_BACKGROUND_PATH = "images/Background/galaxy.png";
+const std::string GALAXY_2_BACKGROUND_PATH = "images/Background/galaxy2.png";
+
 void waitUntilKeyPressed();
 
 void errorLog(std::ostream& os, std::string msg, bool fatal);

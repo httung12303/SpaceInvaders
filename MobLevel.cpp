@@ -4,7 +4,7 @@ MobLevel::MobLevel(SDL_Renderer* screen, const std::string& formationPath) {
 	enemyFormation = new EnemyFormation(formationPath);
 	enemyFormation->loadEnemies("images/Characters/enemy.png", screen);
 	enemyFormation->loadProjectiles("images/Projectile/lazer.png", screen);
-	backGround.loadImage("images/Background/sky.png", screen);
+	backGround.loadImage(GALAXY_BACKGROUND_PATH, screen);
 	backGround.setRectSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 }
 

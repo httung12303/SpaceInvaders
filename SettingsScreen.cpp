@@ -2,7 +2,7 @@
 
 SettingsScreen::SettingsScreen(SDL_Renderer* screen) {
 	title.loadImage("images/SettingsScreen/Settings.png", screen);
-	backGround.loadImage("images/Background/sky.png", screen);
+	backGround.loadImage(GALAXY_BACKGROUND_PATH, screen);
 	backGround.setRectSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	buttons[0].loadImage("images/SettingsScreen/MusicOn.png", screen);
 	buttons[1].loadImage("images/SettingsScreen/MusicOff.png", screen);

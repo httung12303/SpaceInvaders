@@ -64,14 +64,15 @@ void GameManager::loadGame() {
     levels.push_back(new BossLevel(screen));
     player = new Player(screen);
     music = new BackGroundMusic();
-    BOSS_LEVEL = 2;
+    BOSS_LEVEL = levels.size() - 1;
     exitGame = false;
     inStartScreen = true;
     inSettingsScreen = false;
     musicPlaying = true;
-	currentLevel = 0;
+	currentLevel = BOSS_LEVEL;
     playing = false;
     SDL_WarpMouseInWindow(window, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+    SDL_SetWindowIcon(window, IMG_Load("images/WindowIcon/windowIcon.png"));
 }
 
 void GameManager::run() {

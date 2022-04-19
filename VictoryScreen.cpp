@@ -12,7 +12,7 @@ VictoryScreen::VictoryScreen(SDL_Renderer* screen) {
 	highlightedButtons[2].loadImage("images/VictoryScreen/highlightedExit.png", screen);
 	highlightedButtons[3].loadImage("images/VictoryScreen/highlightedRestart.png", screen);
 	highlightedButtons[4].loadImage("images/VictoryScreen/highlightedReplayBossLevel.png", screen);
-	backGround.loadImage("images/Background/sky.png", screen);
+	backGround.loadImage(GALAXY_BACKGROUND_PATH, screen);
 	backGround.setRectSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	SDL_Rect renderQuad = { WINDOW_WIDTH / 2 - title.getRect().w / 2, 150, title.getRect().w, title.getRect().h };
 	title.setRect(renderQuad);

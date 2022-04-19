@@ -2,7 +2,7 @@
 
 BossLevel::BossLevel(SDL_Renderer* screen) {
 	boss = new AirCraftBoss(screen);
-	backGround.loadImage("images/Background/sky.png", screen);
+	backGround.loadImage(GALAXY_BACKGROUND_PATH, screen);
 	backGround.setRectSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 }
 
