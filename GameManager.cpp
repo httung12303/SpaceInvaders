@@ -69,7 +69,7 @@ void GameManager::loadGame() {
     inStartScreen = true;
     inSettingsScreen = false;
     musicPlaying = true;
-	currentLevel = BOSS_LEVEL;
+	currentLevel = 0;
     playing = false;
     SDL_WarpMouseInWindow(window, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
     SDL_SetWindowIcon(window, IMG_Load("images/WindowIcon/windowIcon.png"));
