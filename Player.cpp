@@ -2,7 +2,7 @@
 
 Player::Player(SDL_Renderer* screen) {
 
-    lives = 5;
+    hp = 5;
     currentFrame = PLAYER_ANIMATION_COUNT / 2 - 1;
     xPos = 0;
     yPos = 0;
@@ -10,29 +10,33 @@ Player::Player(SDL_Renderer* screen) {
     frameHeight = 0;
     alive = true;
     damage = 1;
-    lastShot = SDL_GetTicks();
-    lastFrameTick = SDL_GetTicks();
+    lastShot = 0;
+    lastFrameTick = 0;
     loadImage("images/Characters/plane.png", screen);
     setClip();
     resetPos();
     loadProjectile("images/Projectile/rocket.png", screen);
     heart.loadImage("images/Characters/heart.png", screen);
+    numberOfProjectiles = 1;
+    attackGap = MAX_ATTACK_GAP;
 }
 
 Player::~Player() {
     projectile.Free();
     Free();
-    Mix_FreeChunk(fireSound);
 }
 
 void Player::reset() {
     setRect(getSpawnX(), getSpawnY());
-    lives = 5;
+    hp = 5;
     alive = true;
     lastShot = SDL_GetTicks();
     lastFrameTick = SDL_GetTicks();
 	projectiles.clear();
     resetPos();
+    numberOfProjectiles = 1;
+    attackGap = MAX_ATTACK_GAP;
+    lastShot = 0;
 }
 
 bool Player::loadImage(std::string path, SDL_Renderer* screen) {
@@ -90,7 +94,7 @@ void Player::show(SDL_Renderer* des) {
         SDL_RenderCopy(des, objTexture, clip, &renderQuad);
     }
 
-    for (int i = 0; i < lives; i++) {
+    for (int i = 0; i < hp; i++) {
 		heart.setRect(30 + i * (heart.getRect().w + 5), WINDOW_HEIGHT - heart.getRect().h - 10);
         heart.render(des, NULL);
     }
@@ -140,36 +144,22 @@ void Player::handleInput(SDL_Event& e, SDL_Renderer* screen, SDL_Window* window)
 
         if (keyboardState[SDL_SCANCODE_SPACE]) {
             unsigned int curShot = SDL_GetTicks();
-            if (curShot - lastShot >= 200) {
+            if (curShot - lastShot >= attackGap) {
                 shoot(screen);
-                if (fireSound != NULL) {
-                    Mix_VolumeChunk(fireSound, 5);
-                    Mix_PlayChannel(-1, fireSound, 0);
-                }
                 lastShot = curShot;
             }
         }
     }
     else if (e.type == SDL_MOUSEBUTTONDOWN) {
         unsigned int curShot = SDL_GetTicks();
-        if (curShot - lastShot >= 200) {
+        if (curShot - lastShot >= attackGap) {
             shoot(screen);
-            if (fireSound != NULL) {
-                Mix_VolumeChunk(fireSound, 5);
-                Mix_PlayChannel(-1, fireSound, 0);
-            }
             lastShot = curShot;
         }
     }
     else if (e.type == SDL_MOUSEMOTION) {
         xPos = e.motion.x;
         yPos = e.motion.y;
-
-        /*if (yPos < minYPos) yPos = minYPos;
-        if (yPos > maxYPos) yPos = maxYPos;
-        if (xPos < minXPos) xPos = minXPos;
-        if (xPos > maxXPos) xPos = maxXPos;*/
-
     }
 }
 
@@ -185,9 +175,19 @@ void Player::loadProjectile(std::string path, SDL_Renderer* screen) {
 }
 
 void Player::shoot(SDL_Renderer* screen) {
-    SDL_Rect temp = projectile.getRect();
-    SDL_Rect renderquad = { xPos + frameWidth / 2 - temp.w / 2, yPos - temp.h / 2, temp.w, temp.h };
-    projectiles.push_back(renderquad);
+    int temp = numberOfProjectiles / 2;
+    for (int i = -numberOfProjectiles / 2; i <= numberOfProjectiles / 2; i++) {
+        if (i != 0) {
+            SDL_Rect projRect = projectile.getRect();
+            SDL_Rect renderquad = { xPos + frameWidth / 2 - projRect.w / 2 + i * PROJECTILES_HORIZONTAL_GAP + i * projRect.w, yPos - projRect.h / 2 + PROJECTILES_VERTICAL_GAP * abs(i), projRect.w, projRect.h};
+            projectiles.push_back(renderquad);
+        }
+        if (i == 0 && numberOfProjectiles % 2 == 1) {
+            SDL_Rect projRect = projectile.getRect();
+            SDL_Rect renderquad = { xPos + frameWidth / 2 - projRect.w / 2, yPos - projRect.h / 2, projRect.w, projRect.h };
+            projectiles.push_back(renderquad);
+        }
+    }
 }
 
 void Player::projectileMove() {
@@ -251,19 +251,14 @@ void Player::hitByStandardProjectiles(Enemy& enemy) {
 
 bool Player::getHit() {
     unsigned int cur = SDL_GetTicks();
-    if (cur - lastHitByEnemy < 3000)
+    if (cur - lastHitByEnemy < 1500)
         return false;
     lastHitByEnemy = cur;
-    lives--;
-    if (lives <= 0) dead();
+    hp--;
+    decreaseNumberOfProjectiles();
+    decreaseAttackSpeed();
+    if (hp <= 0) dead();
     return true;
-}
-
-void Player::loadFireSound(const std::string path) {
-    fireSound = Mix_LoadWAV(path.c_str());
-    if (fireSound == NULL) {
-        std::cout << Mix_GetError() << std::endl;
-    }
 }
 
 void Player::hitByOrbCircle(AirCraftBoss& boss) {

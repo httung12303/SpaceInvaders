@@ -24,7 +24,6 @@ public:
     void showProjectiles(SDL_Renderer* des);
     void enemyContact(Enemy& enemy);
     void dead() { alive = 0; }
-    void loadFireSound(const std::string path);
     int getSpawnX() { return spawnXPos; }
     int getSpawnY() { return spawnYPos; }
     int getFrameWidth() { return frameWidth; }
@@ -39,9 +38,17 @@ public:
     void reset();
     float getXPos() { return xPos; }
     float getYPos() { return yPos; }
+    void heal() { hp++; }
+    int getHP() { return hp; }
+    void increaseNumberOfProjectiles() { if(numberOfProjectiles < MAX_NUMBER_OF_PROJECTILES) numberOfProjectiles++; }
+	void decreaseNumberOfProjectiles() { if(numberOfProjectiles > 1) numberOfProjectiles--; }
+	int getNumberOfProjectiles() { return numberOfProjectiles; }
+    void increaseAttackSpeed() { if (attackGap > MIN_ATTACK_GAP) attackGap -= 200; }
+    void decreaseAttackSpeed() {if(attackGap < MAX_ATTACK_GAP) attackGap += 200; }
+    unsigned int getAttackGap() { return attackGap; }
 private:
     
-    int lives;
+    int hp;
 
     bool alive;
 
@@ -50,6 +57,7 @@ private:
     unsigned int lastShot = 0;
     unsigned int lastHitByEnemy = 0;
     unsigned int lastFrameTick = 0;
+    unsigned int attackGap;
 
     float xPos;
     float yPos;
@@ -74,10 +82,10 @@ private:
     int horizontalMove = 0;
     int verticalMove = 0;
 
+    int numberOfProjectiles;
+	
     BaseObject projectile;
     BaseObject heart;
-
-    Mix_Chunk* fireSound = NULL;
 
     std::vector < SDL_Rect > projectiles;
 

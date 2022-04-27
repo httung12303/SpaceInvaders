@@ -1,6 +1,6 @@
 #include "MobLevel.h"
 
-MobLevel::MobLevel(SDL_Renderer* screen, const std::string& formationPath) {
+MobLevel::MobLevel(SDL_Renderer* screen, const std::string& formationPath) : Level(screen) {
 	enemyFormation = new EnemyFormation(formationPath);
 	enemyFormation->loadEnemies("images/Characters/enemy.png", screen);
 	enemyFormation->loadProjectiles("images/Projectile/lazer.png", screen);
@@ -31,12 +31,16 @@ void MobLevel::process(Player& player, SDL_Renderer* screen) {
     SDL_SetRenderDrawColor(screen, 255, 255, 255, 255);
     SDL_RenderClear(screen);
     backGround.render(screen);
+    renderPowerUps(screen);
     if (player.isAlive()) {
         enemyFormation->interactWithPlayer(player);
+        playerPowerUp(player);
         player.show(screen);
     }
     enemyFormation->show(screen);
     player.showProjectiles(screen);
     SDL_RenderPresent(screen);
     enemyFormation->moveFormation();
+    movePowerUps();
+    insertRandomPowerUp();
 }

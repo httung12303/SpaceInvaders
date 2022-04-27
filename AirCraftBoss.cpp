@@ -44,7 +44,7 @@ void AirCraftBoss::reset() {
 	hp = MAX_BOSS_HP;
 	lastOrbCircle = SDL_GetTicks();
 	lastHomingMissiles = SDL_GetTicks();
-	lastOmegaBeam = SDL_GetTicks();
+	lastOmegaBeam = 0;
 	omegaBeamFrame = SDL_GetTicks();
 	setRect(WINDOW_WIDTH / 2 - this->getRect().w / 2, -50);
 	enemiesStandardProjectile.clear();

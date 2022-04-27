@@ -49,6 +49,21 @@ const int MOVE_LEFT = 2;
 const int MOVE_UP = 1;
 const int MOVE_DOWN = 2;
 
+const int EXTRA_HITPOINT_POWER_UP = 0;
+const int EXTRA_SHOT_POWER_UP = 1;
+const int INCREASE_ATTACK_SPEED_POWER_UP = 2;
+
+const unsigned int MIN_ATTACK_GAP = 200;
+const unsigned int MAX_ATTACK_GAP = 1000;
+
+const int POWER_UP_FALL_SPEED = 1;
+
+const int MAX_NUMBER_OF_PROJECTILES = 5;
+const int PROJECTILES_HORIZONTAL_GAP = 8;
+const int PROJECTILES_VERTICAL_GAP = 5;
+
+const int MAX_HP = 5;
+
 const std::string SKY_BACKGROUND_PATH = "images/Background/sky.png";
 const std::string GALAXY_BACKGROUND_PATH = "images/Background/galaxy.png";
 const std::string GALAXY_2_BACKGROUND_PATH = "images/Background/galaxy2.png";

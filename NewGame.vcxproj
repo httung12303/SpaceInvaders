@@ -79,8 +79,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\ADMIN\source\repos\NewGame\SDL\SDL2-2.0.20\include;C:\Users\ADMIN\source\repos\NewGame\SDL\SDL2_ttf-2.0.18\include;C:\Users\ADMIN\source\repos\NewGame\SDL\SDL2_mixer-2.0.4\include;C:\Users\ADMIN\source\repos\NewGame\SDL\SDL2_image-2.0.5\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\ADMIN\source\repos\NewGame\SDL\SDL2-2.0.20\lib\x64;C:\Users\ADMIN\source\repos\NewGame\SDL\SDL2_ttf-2.0.18\lib\x64;C:\Users\ADMIN\source\repos\NewGame\SDL\SDL2_mixer-2.0.4\lib\x64;C:\Users\ADMIN\source\repos\NewGame\SDL\SDL2_image-2.0.5\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>SDL\SDL2-2.0.20\include;SDL\SDL2_ttf-2.0.18\include;SDL\SDL2_mixer-2.0.4\include;SDL\SDL2_image-2.0.5\include;$(IncludePath)</IncludePath>
+    <LibraryPath>SDL\SDL2-2.0.20\lib\x64;SDL\SDL2_ttf-2.0.18\lib\x64;SDL\SDL2_mixer-2.0.4\lib\x64;SDL\SDL2_image-2.0.5\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -123,7 +123,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\ADMIN\source\repos\NewGame\SDL\SDL2-2.0.20\lib\x64;C:\Users\ADMIN\source\repos\NewGame\SDL\SDL2_ttf-2.0.18\lib\x64;C:\Users\ADMIN\source\repos\NewGame\SDL\SDL2_mixer-2.0.4\lib\x64;C:\Users\ADMIN\source\repos\NewGame\SDL\SDL2_image-2.0.5\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>SDL\SDL2-2.0.20\lib\x64;SDL\SDL2_ttf-2.0.18\lib\x64;SDL\SDL2_mixer-2.0.4\lib\x64;SDL\SDL2_image-2.0.5\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -152,6 +152,7 @@
     <ClCompile Include="EnemyFormation.cpp" />
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="MobLevel.cpp" />
     <ClCompile Include="OmegaBeam.cpp" />
     <ClCompile Include="RetryScreen.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="MobLevel.h" />
     <ClInclude Include="OmegaBeam.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PowerUp.h" />
     <ClInclude Include="RetryScreen.h" />
     <ClInclude Include="SettingsScreen.h" />
     <ClInclude Include="StartScreen.h" />
