@@ -1,12 +1,12 @@
 #pragma once
 #include "RetryScreen.h"
 
-const int VICTORY_NONE = -1;
-const int NEXT_LEVEL_BUTTON = 0;
-const int VICTORY_RETURN = 1;
-const int VICTORY_EXIT = 2;
-const int VICTORY_RESTART = 3;
-const int VICTORY_REPLAY_BOSS_LEVEL = 4;
+//const int NONE = -1;
+//const int NEXT_LEVEL_BUTTON = 0;
+//const int RETURN_TO_MAIN_MENU_BUTTON = 1;
+//const int EXIT_BUTTON = 2;
+//const int RESTART_BUTTON = 3;
+//const int RESTART_BOSS_LEVEL_BUTTON = 4;
 
 class VictoryScreen : public RetryScreen {
 public:

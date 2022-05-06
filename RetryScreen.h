@@ -3,11 +3,6 @@
 #include "Player.h"
 #include "BasicFunction.h"
 
-const int RETRY_NONE = -1;
-const int RETRY_BUTTON = 0;
-const int RETURN_TO_MAIN_MENU_BUTTON = 1;
-const int RETRY_EXIT_BUTTON = 2;
-
 class RetryScreen {
 public:
 	RetryScreen() {}

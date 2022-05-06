@@ -5,7 +5,7 @@
 #include "Explosion.h"
 #include "OmegaBeam.h"
 
-const int MAX_BOSS_HP = 300;
+const int MAX_BOSS_HP = 500;
 
 class AirCraftBoss : public Enemy {
 public:

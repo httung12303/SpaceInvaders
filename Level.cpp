@@ -64,7 +64,6 @@ void Level::playerPowerUp(Player& player) {
 			}
 			else if (powerUps[i].effect == INCREASE_ATTACK_SPEED_POWER_UP) {
 				player.increaseAttackSpeed();
-				std::cout << player.getAttackGap() << std::endl;
 			}
 			powerUps.erase(powerUps.begin() + (i--));
 		}

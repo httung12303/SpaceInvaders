@@ -19,12 +19,12 @@ StartScreen::StartScreen(SDL_Renderer* screen) {
 	highlightedButtons[0].setRect(startButtonRect);
 
 	SDL_Rect settingsButtonRect = buttons[1].getRect();
-	settingsButtonRect = { WINDOW_WIDTH / 2 - settingsButtonRect.w / 2, WINDOW_HEIGHT * 2 / 3 + 30, settingsButtonRect.w, settingsButtonRect.h };
+	settingsButtonRect = { WINDOW_WIDTH / 2 - settingsButtonRect.w / 2, WINDOW_HEIGHT * 2 / 3 + 25, settingsButtonRect.w, settingsButtonRect.h };
 	buttons[1].setRect(settingsButtonRect);
 	highlightedButtons[1].setRect(settingsButtonRect);
 
 	SDL_Rect exitButtonRect = buttons[2].getRect();
-	exitButtonRect = { WINDOW_WIDTH / 2 - exitButtonRect.w / 2, WINDOW_HEIGHT * 2 / 3 + 90, exitButtonRect.w, exitButtonRect.h };
+	exitButtonRect = { WINDOW_WIDTH / 2 - exitButtonRect.w / 2, WINDOW_HEIGHT * 2 / 3 + 80, exitButtonRect.w, exitButtonRect.h };
 	buttons[2].setRect(exitButtonRect);
 	highlightedButtons[2].setRect(exitButtonRect);
 }
@@ -100,25 +100,18 @@ void StartScreen::handleInput(SDL_Event& event, SDL_Window*& window, bool& inSta
 		if(event.type == SDL_MOUSEMOTION) {
 			int x = event.motion.x;
 			int y = event.motion.y;
-
+			currentButton = NONE;
 			SDL_Rect temp = buttons[0].getRect();
 			if (pointInsideRect(x, y, temp)) {
 				currentButton = START_BUTTON;
 			}
-			else {
-				temp = buttons[2].getRect();
-				if (pointInsideRect(x, y, temp)) {
-					currentButton = EXIT_BUTTON;
-				}
-				else {
-					temp = buttons[1].getRect();
-					if (pointInsideRect(x, y, temp)) {
-						currentButton = SETTINGS_BUTTON;
-					}
-					else {
-						currentButton = NONE;
-					}
-				}
+			temp = buttons[2].getRect();
+			if (pointInsideRect(x, y, temp)) {
+				currentButton = EXIT_BUTTON;
+			}
+			temp = buttons[1].getRect();
+			if (pointInsideRect(x, y, temp)) {
+				currentButton = SETTINGS_BUTTON;
 			}
 		}
 		else if (event.type == SDL_MOUSEBUTTONDOWN) {

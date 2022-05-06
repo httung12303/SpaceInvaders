@@ -148,6 +148,7 @@
     <ClCompile Include="BackGroundMusic.cpp" />
     <ClCompile Include="BasicFunction.cpp" />
     <ClCompile Include="BossLevel.cpp" />
+    <ClCompile Include="ControlsScreen.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFormation.cpp" />
     <ClCompile Include="Explosion.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="BasicFunction.h" />
     <ClInclude Include="BossLevel.h" />
+    <ClInclude Include="ControlsScreen.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyFormation.h" />
     <ClInclude Include="Explosion.h" />

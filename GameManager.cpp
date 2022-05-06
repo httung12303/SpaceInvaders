@@ -59,6 +59,7 @@ void GameManager::loadGame() {
     startScreen->resetTitlePos();
     retryScreen = new RetryScreen(screen);
     victoryScreen = new VictoryScreen(screen);
+	controlsScreen = new ControlsScreen(screen);
     levels.push_back(new MobLevel(screen, WHEEL_FORMATION));
 	levels.push_back(new MobLevel(screen, STACKED_FORMATION));
     levels.push_back(new BossLevel(screen));
@@ -69,7 +70,8 @@ void GameManager::loadGame() {
     inStartScreen = true;
     inSettingsScreen = false;
     musicPlaying = true;
-	currentLevel = 0;
+    inControlsScreen = false;
+	currentLevel = BOSS_LEVEL;
     playing = false;
     SDL_WarpMouseInWindow(window, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
     SDL_SetWindowIcon(window, IMG_Load("images/WindowIcon/windowIcon.png"));
@@ -79,6 +81,9 @@ void GameManager::run() {
     while (!exitGame) {
         if (inSettingsScreen) {
             settingsScreenProcess();
+        }
+        else if (inControlsScreen) {
+			controlsScreenProcess();
         }
         else if (inStartScreen) {
             startScreenProcess();
@@ -129,13 +134,21 @@ void GameManager::startScreenProcess() {
     }
 }
 
+void GameManager::controlsScreenProcess() {
+	SDL_ShowCursor(SDL_ENABLE);
+    if (inStartScreen) startScreen->playMusic(musicPlaying);
+    else music->play(musicPlaying);
+    controlsScreen->handleInput(inControlsScreen, inSettingsScreen, exitGame);
+    controlsScreen->show(screen);
+}
+
 void GameManager::settingsScreenProcess() {
     SDL_ShowCursor(SDL_ENABLE);
     if (inStartScreen) startScreen->playMusic(musicPlaying);
     else music->play(musicPlaying);
-    settingsScreen->handleInput(inStartScreen, inSettingsScreen, musicPlaying, exitGame, player, levels[currentLevel], playing);
+    settingsScreen->handleInput(inStartScreen, inSettingsScreen, musicPlaying, exitGame, player, levels[currentLevel], playing, inControlsScreen);
     settingsScreen->show(screen, musicPlaying, playing);
-    if (!inSettingsScreen && !inStartScreen) {
+    if (!inSettingsScreen && !inStartScreen && !inControlsScreen) {
         SDL_WarpMouseInWindow(window, playerXPos, playerYPos);
     }
 }

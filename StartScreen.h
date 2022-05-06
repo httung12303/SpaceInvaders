@@ -4,11 +4,6 @@
 
 const int TITLE_FALL_SPEED = 2;
 
-const int NONE = 0;
-const int START_BUTTON = 1;
-const int EXIT_BUTTON = 2;
-const int SETTINGS_BUTTON = 3;
-
 class StartScreen {
 public:
 	StartScreen(SDL_Renderer* screen);

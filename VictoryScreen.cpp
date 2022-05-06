@@ -27,7 +27,7 @@ VictoryScreen::VictoryScreen(SDL_Renderer* screen) {
 		buttons[i].setRect(renderQuad);
 		highlightedButtons[i].setRect(renderQuad);
 	}
-	currentButton = VICTORY_NONE;
+	currentButton = NONE;
 }
 
 void VictoryScreen::show(SDL_Renderer* screen, bool bossLevel) {
@@ -44,26 +44,26 @@ void VictoryScreen::show(SDL_Renderer* screen, bool bossLevel) {
 		}
 	}
 	else {
-		if (currentButton == NEXT_LEVEL_BUTTON || currentButton == VICTORY_RESTART) {
+		if (currentButton == NEXT_LEVEL_BUTTON || currentButton == RESTART_BUTTON) {
 			highlightedButtons[3].render(screen, NULL);
 		}
 		else {
 			buttons[3].render(screen, NULL);
 		}
-		if (currentButton == VICTORY_REPLAY_BOSS_LEVEL) {
+		if (currentButton == RESTART_BOSS_LEVEL_BUTTON) {
 			highlightedButtons[4].render(screen, NULL);
 		}
 		else {
 			buttons[4].render(screen, NULL);
 		}
 	}
-	if (currentButton == VICTORY_RETURN) {
+	if (currentButton == RETURN_TO_MAIN_MENU_BUTTON) {
 		highlightedButtons[1].render(screen, NULL);
 	}
 	else {
 		buttons[1].render(screen, NULL);
 	}
-	if (currentButton == VICTORY_EXIT) {
+	if (currentButton == EXIT_BUTTON) {
 		highlightedButtons[2].render(screen, NULL);
 	}
 	else {
@@ -86,28 +86,28 @@ void VictoryScreen::handleInput(bool& inStartScreen, bool& exitGame, bool bossLe
 				currentButton = NEXT_LEVEL_BUTTON;
 			}
 			else if (pointInsideRect(x, y, buttons[1].getRect())) {
-				currentButton = VICTORY_RETURN;
+				currentButton = RETURN_TO_MAIN_MENU_BUTTON;
 			}
 			else if (pointInsideRect(x, y, buttons[2].getRect())) {
-				currentButton = VICTORY_EXIT;
+				currentButton = EXIT_BUTTON;
 			}
 			else if (pointInsideRect(x, y, buttons[3].getRect())) {
-				currentButton = VICTORY_RESTART;
+				currentButton = RESTART_BUTTON;
 			}
 			else if(pointInsideRect(x, y, buttons[4].getRect())) {
-				currentButton = VICTORY_REPLAY_BOSS_LEVEL;
+				currentButton = RESTART_BOSS_LEVEL_BUTTON;
 			}
 			else {
-				currentButton = VICTORY_NONE;
+				currentButton = NONE;
 			}
 		}
 		else if (event.type == SDL_MOUSEBUTTONDOWN) {
-			if ((currentButton == NEXT_LEVEL_BUTTON || currentButton == VICTORY_RESTART) && bossLevel) {
+			if ((currentButton == NEXT_LEVEL_BUTTON || currentButton == RESTART_BUTTON) && bossLevel) {
 				inStartScreen = false;
 				exitGame = false;
 				restart = true;
 			}
-			else if (currentButton == VICTORY_REPLAY_BOSS_LEVEL && bossLevel) {
+			else if (currentButton == RESTART_BOSS_LEVEL_BUTTON && bossLevel) {
 				inStartScreen = false;
 				exitGame = false;
 				replayBoss = true;
@@ -117,12 +117,12 @@ void VictoryScreen::handleInput(bool& inStartScreen, bool& exitGame, bool bossLe
 				exitGame = false;
 				nextLevel = true;
 			}
-			else if (currentButton == VICTORY_RETURN) {
+			else if (currentButton == RETURN_TO_MAIN_MENU_BUTTON) {
 				inStartScreen = true;
 				exitGame = false;
 				nextLevel = false;
 			}
-			else if (currentButton == VICTORY_EXIT) {
+			else if (currentButton == EXIT_BUTTON) {
 				exitGame = true;
 				inStartScreen = false;
 				nextLevel = false;

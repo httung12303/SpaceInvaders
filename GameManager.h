@@ -13,6 +13,7 @@
 #include "RetryScreen.h"
 #include "VictoryScreen.h"
 #include "Level.h"
+#include "ControlsScreen.h"
 
 class GameManager {
 public:
@@ -25,6 +26,7 @@ public:
 	void settingsScreenProcess();
 	void retryScreenProcess();
     void victoryScreenProcess();
+    void controlsScreenProcess();
 private:
     SDL_Window* window = NULL;
 	SDL_Renderer* screen = NULL;
@@ -34,7 +36,8 @@ private:
     SettingsScreen* settingsScreen = NULL;
     RetryScreen* retryScreen = NULL;
     VictoryScreen* victoryScreen = NULL;
-    BackGroundMusic* music;
+    BackGroundMusic* music = NULL;
+    ControlsScreen* controlsScreen = NULL;
     std::vector<Level*> levels;
     Player* player = NULL;
 	
@@ -42,6 +45,7 @@ private:
     bool exitGame;
     bool inStartScreen;
     bool inSettingsScreen;
+    bool inControlsScreen;
     bool musicPlaying;
     float playerXPos;
     float playerYPos;

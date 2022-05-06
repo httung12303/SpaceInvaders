@@ -115,7 +115,7 @@ void AirCraftBoss::shoot() {
 		lastOrbCircle = curShot;
 	}
 
-	if (curShot > lastHomingMissiles + 10000) {
+	if (curShot > lastHomingMissiles + 8000) {
 		homingMissilesRect.clear();
 		homingMissilesAngle.clear();
 		homingMissilesDeleted.clear();
@@ -139,7 +139,7 @@ void AirCraftBoss::shoot() {
 		lastHomingMissiles = curShot;
 	}
 
-	if (hp % 30 == 0 && hp < MAX_BOSS_HP && curShot > lastOmegaBeam + 5000) {
+	if (hp < MAX_BOSS_HP - 50 && curShot > lastOmegaBeam + 6000) {
 		SDL_Rect temp = omegaBeam.getRect();
 		projRect = { bossRect.x - 37, bossRect.y + bossRect.h - 170, omegaBeam.getFrameWidth(), omegaBeam.getFrameHeight() };
 		omegaBeamRects.push_back(projRect);

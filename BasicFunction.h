@@ -37,7 +37,7 @@ const int ENEMY_VERTICAL_SPEED = 60;
 const int PLAYER_PROJ_SPEED = 5;
 const int ENEMY_STANDARD_PROJ_SPEED = 3;
 const int BOSS_ORB_SPEED = 5;
-const int BOSS_HOMING_MISSILE_SPEED = 2;
+const int BOSS_HOMING_MISSILE_SPEED = 3;
 const int BOSS_SPEED = 2;
 
 const int PLAYER_ANIMATION_COUNT = 25;
@@ -63,6 +63,19 @@ const int PROJECTILES_HORIZONTAL_GAP = 8;
 const int PROJECTILES_VERTICAL_GAP = 5;
 
 const int MAX_HP = 5;
+
+const int NONE = -1;
+const int NEXT_LEVEL_BUTTON = 0;
+const int RETURN_TO_MAIN_MENU_BUTTON = 1;
+const int EXIT_BUTTON = 2;
+const int RESTART_BUTTON = 3;
+const int RESTART_BOSS_LEVEL_BUTTON = 4;
+const int RETRY_BUTTON = 5;
+const int MUSIC_ON_BUTTON = 6;
+const int RETURN_BUTTON = 7;
+const int START_BUTTON = 8;
+const int SETTINGS_BUTTON = 9;
+const int CONTROLS_BUTTON = 10;
 
 const std::string SKY_BACKGROUND_PATH = "images/Background/sky.png";
 const std::string GALAXY_BACKGROUND_PATH = "images/Background/galaxy.png";

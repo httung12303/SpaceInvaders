@@ -13,11 +13,11 @@ RetryScreen::RetryScreen(SDL_Renderer* screen) {
 	SDL_Rect renderQuad = { WINDOW_WIDTH / 2 - title.getRect().w / 2, 150, title.getRect().w, title.getRect().h };
 	title.setRect(renderQuad);
 	for (int i = 0; i < 3; i++) {
-		renderQuad = { WINDOW_WIDTH / 2 - buttons[i].getRect().w / 2, 350 + 70 * i, buttons[i].getRect().w, buttons[i].getRect().h};
+		renderQuad = { WINDOW_WIDTH / 2 - buttons[i].getRect().w / 2, 350 + 60 * i, buttons[i].getRect().w, buttons[i].getRect().h};
 		buttons[i].setRect(renderQuad);
 		highlightedButtons[i].setRect(renderQuad);
 	}
-	currentButton = RETRY_NONE;
+	currentButton = NONE;
 }
 
 RetryScreen::~RetryScreen() {
@@ -45,10 +45,10 @@ void RetryScreen::handleInput(bool& inStartScreen, bool& exitGame) {
 				currentButton = RETURN_TO_MAIN_MENU_BUTTON;
 			}
 			else if (pointInsideRect(x, y, buttons[2].getRect())) {
-				currentButton = RETRY_EXIT_BUTTON;
+				currentButton = EXIT_BUTTON;
 			}
 			else {
-				currentButton = RETRY_NONE;
+				currentButton = NONE;
 			}
 		}
 		else if (event.type == SDL_MOUSEBUTTONDOWN) {
@@ -62,7 +62,7 @@ void RetryScreen::handleInput(bool& inStartScreen, bool& exitGame) {
 				exitGame = false;
 				tryAgain = false;
 			}
-			else if (currentButton == RETRY_EXIT_BUTTON) {
+			else if (currentButton == EXIT_BUTTON) {
 				exitGame = true;
 				inStartScreen = false;
 				tryAgain = false;
@@ -88,7 +88,7 @@ void RetryScreen::show(SDL_Renderer* screen) {
 	else {
 		buttons[1].render(screen, NULL);
 	}
-	if (currentButton == RETRY_EXIT_BUTTON) {
+	if (currentButton == EXIT_BUTTON) {
 		highlightedButtons[2].render(screen, NULL);
 	}
 	else {
